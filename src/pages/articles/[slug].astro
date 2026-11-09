@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { articles, type Article } from '../../data/articles';
+export function getStaticPaths() {
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+const { article } = Astro.props as { article: Article };
+---
+<BaseLayout title={`${article.title} | AI最前線新聞`} description={article.summary}>
+  <div class="article-wrap">
+    <a href="/" class="back-link">← 今日の新聞へ</a>
+    <div class="eyebrow" style="margin-top:30px">{article.articleType} / SAMPLE</div>
+    <h1>{article.title}</h1>
+    <div class="article-tools"><span>{article.category}</span><span>試作号</span><span>読了目安 {article.readMinutes}分</span></div>
+    <div class="notice" role="note"><strong>サンプル記事：</strong>このページはUI確認用です。新しい発表や実際の検証結果を報告するものではありません。</div>
+    <section aria-labelledby="summary-title">
+      <div class="eyebrow">LEVEL 1 · 30-SECOND SUMMARY</div>
+      <h2 id="summary-title">30秒で理解する</h2>
+      <p class="lead">{article.summary}</p>
+    </section>
+    <section class="article-section" aria-labelledby="technical-title">
+      <div class="eyebrow">LEVEL 2 · TECHNICAL DEEP DIVE</div>
+      <h2 id="technical-title">技術を深掘りする</h2>
+      {article.technical.map((paragraph)=><p>{paragraph}</p>)}
+    </section>
+    <section class="article-section" aria-labelledby="source-title">
+      <h2 id="source-title">出典・検証状況</h2>
+      {article.isDemo
+        ? <p>これはサンプル記事のため、ニュースの出典や実証結果はありません。本番記事では一次情報、発表日、主張と根拠の対応を検証してから公開します。</p>
+        : <ul>{article.sources.map((source)=><li><a href={source.url} rel="noopener noreferrer" target="_blank">{source.label}</a></li>)}</ul>}
+    </section>
+    <section class="article-section">
+      <a class="back-link" href="/">← トップページに戻る</a>
+    </section>
+  </div>
+</BaseLayout>

@@ -1,12 +1,13 @@
 ---
 import '../styles/global.css';
+import { issueDate } from '../data/articles';
 interface Props {
   title?: string;
   description?: string;
 }
 const {
   title = 'AI最前線新聞 | AI FRONTIER',
-  description = '世界のAI技術と現場の実践を、やさしく・深く伝えるAI専門メディア。',
+  description = 'AIの進化が、世界をどう変えるのか。公式発表をもとにやさしく・深く伝えるAI専門新聞。',
 } = Astro.props;
 const path = Astro.url.pathname;
 ---
@@ -16,7 +17,10 @@ const path = Astro.url.pathname;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta name="robots" content="noindex,nofollow" />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
     <title>{title}</title>
   </head>
   <body>
@@ -26,7 +30,7 @@ const path = Astro.url.pathname;
         <a class="brand" href="/" aria-label="AI FRONTIER ホーム">AI FRONTIER <span>AI最前線新聞</span></a>
         <nav class="site-nav" aria-label="主要ナビゲーション">
           <a href="/" aria-current={path === '/' ? 'page' : undefined}>今日の新聞</a>
-          <a href="/issues/2026-11-09/" aria-current={path.startsWith('/issues/') ? 'page' : undefined}>バックナンバー</a>
+          <a href={`/issues/${issueDate}/`} aria-current={path.startsWith('/issues/') ? 'page' : undefined}>バックナンバー</a>
           <a href="/about/" aria-current={path.startsWith('/about/') ? 'page' : undefined}>この新聞について</a>
         </nav>
       </div>
@@ -35,7 +39,7 @@ const path = Astro.url.pathname;
     <footer class="footer">
       <div class="container footer-inner">
         <span>© AI FRONTIER · AI最前線新聞</span>
-        <span>試作版｜記事はすべてサンプルです。自動配信は未実装。</span>
+        <span>創刊：2026年11月10日｜公式発表に基づく独立編集｜自動発行は準備中</span>
       </div>
     </footer>
   </body>

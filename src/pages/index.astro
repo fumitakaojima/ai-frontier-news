@@ -1,49 +1,49 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { articles, issueDate } from '../data/articles';
+import { articles, issueDate, issueNumber } from '../data/articles';
 const lead = articles[0];
 const others = articles.slice(1);
 const formatted = new Intl.DateTimeFormat('ja-JP',{year:'numeric',month:'long',day:'numeric',weekday:'long',timeZone:'Asia/Tokyo'}).format(new Date(issueDate+'T00:00:00+09:00'));
 ---
-<BaseLayout title="AI最前線新聞 | AI FRONTIER">
+<BaseLayout title="AI最前線新聞 | AI FRONTIER" description="AIの進化が、世界をどう変えるのか。公式発表に基づくAIニュースを30秒要約と技術解説で届ける日本語の新聞。">
   <div class="masthead">
-    <div class="kicker">Independent AI Technology Newspaper · Prototype</div>
+    <div class="kicker">Independent AI Technology Newspaper · First Edition</div>
     <h1>AI最前線新聞</h1>
-    <div class="deck">未来を変える技術も、今日から使える技術も。</div>
+    <div class="deck">AIの進化を知る。その驚きから、未来が始まる。</div>
   </div>
-  <div class="meta-line"><span>{formatted} ｜ 試作号 No. 000</span><span>研究・開発・プロダクト・実践の最前線</span></div>
-  <div class="notice" role="note"><strong>試作サイト：</strong>以下はレイアウトを確認するためのサンプル記事です。実際の最新ニュースではありません。</div>
+  <div class="meta-line"><span>{formatted} ｜ 創刊号 No. {String(issueNumber).padStart(3,'0')}</span><span>研究・開発・プロダクト・実践の最前線</span></div>
+  <div class="notice" role="note"><strong>創刊号：</strong>公式発表に基づく直近の注目ニュースをお届けします。各記事に発表日と一次情報へのリンクを掲載。現在は手動編集による発行で、毎日の自動配信は準備中です。</div>
   <section aria-labelledby="lead-title">
-    <div class="section-heading"><h2 id="lead-title">今日の一面</h2><span>TOP STORY / DEMO</span></div>
+    <div class="section-heading"><h2 id="lead-title">創刊号の一面</h2><span>TOP STORY / FRONT PAGE</span></div>
     <div class="hero-story">
       <div>
         <span class="pill">{lead.category}</span>
-        <div class="eyebrow" style="margin-top:14px">SAMPLE FEATURE</div>
+        <div class="eyebrow" style="margin-top:14px">THE LEAD STORY</div>
         <h2><a href={`/articles/${lead.slug}/`}>{lead.title}</a></h2>
         <p>{lead.summary}</p>
-        <div class="story-meta">サンプル記事 · {lead.readMinutes}分で読む · {lead.articleType}</div>
-        <a class="action-link" href={`/articles/${lead.slug}/`}>記事の構成を見る →</a>
+        <div class="story-meta">発表：{lead.announcedAt} · {lead.readMinutes}分で読む · {lead.articleType}</div>
+        <a class="action-link" href={`/articles/${lead.slug}/`}>記事を読む →</a>
       </div>
       <div class="hero-art" aria-hidden="true"><strong>AI<br/>Frontier.</strong></div>
     </div>
   </section>
   <section aria-labelledby="more-title">
-    <div class="section-heading"><h2 id="more-title">注目のトピック</h2><span>MORE STORIES / DEMO</span></div>
+    <div class="section-heading"><h2 id="more-title">今号の注目ニュース</h2><span>MORE STORIES</span></div>
     <div class="article-grid">
       {others.map((article)=><article class="story-card">
         <span class="pill">{article.category}</span>
         <h3><a href={`/articles/${article.slug}/`}>{article.title}</a></h3>
         <p>{article.summary}</p>
-        <div class="story-meta">サンプル · {article.articleType} · {article.readMinutes}分</div>
+        <div class="story-meta">発表：{article.announcedAt} · {article.articleType} · {article.readMinutes}分</div>
         <a class="action-link" href={`/articles/${article.slug}/`}>記事を読む →</a>
       </article>)}
     </div>
   </section>
   <section class="info-strip" aria-label="バックナンバーへの案内">
     <div>
-      <strong>毎日の新聞を、知識のライブラリに。</strong>
-      <p>日付別に紙面を保存し、過去の記事へいつでもアクセスできる構成です。</p>
+      <strong>気になったニュースは、いつでも読み返せる。</strong>
+      <p>発行日と元発表日を分けて記録。毎日の発行体制は順次整備します。</p>
     </div>
-    <a class="action-link" href={`/issues/${issueDate}/`}>試作号を確認 →</a>
+    <a class="action-link" href={`/issues/${issueDate}/`}>創刊号の全記事を見る →</a>
   </section>
 </BaseLayout>

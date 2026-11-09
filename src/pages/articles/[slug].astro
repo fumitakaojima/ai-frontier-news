@@ -11,15 +11,24 @@ const { article } = Astro.props as { article: Article };
 ---
 <BaseLayout title={`${article.title} | AI最前線新聞`} description={article.summary}>
   <div class="article-wrap">
-    <a href="/" class="back-link">← 今日の新聞へ</a>
-    <div class="eyebrow" style="margin-top:30px">{article.articleType} / SAMPLE</div>
+    <a href="/" class="back-link">← 新聞の一面へ</a>
+    <div class="eyebrow" style="margin-top:30px">{article.articleType} / VERIFIED SOURCE</div>
     <h1>{article.title}</h1>
-    <div class="article-tools"><span>{article.category}</span><span>試作号</span><span>読了目安 {article.readMinutes}分</span></div>
-    <div class="notice" role="note"><strong>サンプル記事：</strong>このページはUI確認用です。新しい発表や実際の検証結果を報告するものではありません。</div>
+    <div class="article-tools">
+      <span>{article.category}</span>
+      <span>発表：{article.announcedAt}</span>
+      <span>本紙掲載：{article.publishedAt}</span>
+      <span>読了目安 {article.readMinutes}分</span>
+    </div>
     <section aria-labelledby="summary-title">
       <div class="eyebrow">LEVEL 1 · 30-SECOND SUMMARY</div>
       <h2 id="summary-title">30秒で理解する</h2>
       <p class="lead">{article.summary}</p>
+    </section>
+    <section class="article-section" aria-labelledby="meaning-title">
+      <div class="eyebrow">WHY IT MATTERS</div>
+      <h2 id="meaning-title">なぜ注目なのか</h2>
+      <p>{article.whyItMatters}</p>
     </section>
     <section class="article-section" aria-labelledby="technical-title">
       <div class="eyebrow">LEVEL 2 · TECHNICAL DEEP DIVE</div>
@@ -27,10 +36,10 @@ const { article } = Astro.props as { article: Article };
       {article.technical.map((paragraph)=><p>{paragraph}</p>)}
     </section>
     <section class="article-section" aria-labelledby="source-title">
-      <h2 id="source-title">出典・検証状況</h2>
-      {article.isDemo
-        ? <p>これはサンプル記事のため、ニュースの出典や実証結果はありません。本番記事では一次情報、発表日、主張と根拠の対応を検証してから公開します。</p>
-        : <ul>{article.sources.map((source)=><li><a href={source.url} rel="noopener noreferrer" target="_blank">{source.label}</a></li>)}</ul>}
+      <h2 id="source-title">一次情報・検証状況</h2>
+      <p>発表元の公開資料を確認して編集しました。以下の元情報から、ご自身でも確かめられます。</p>
+      <ul>{article.sources.map((source)=><li><a href={source.url} rel="noopener noreferrer" target="_blank">{source.label} ↗</a></li>)}</ul>
+      <div class="notice" role="note"><strong>検証上の注意：</strong>{article.caveat}</div>
     </section>
     <section class="article-section">
       <a class="back-link" href="/">← トップページに戻る</a>

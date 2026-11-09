@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { articles, issueDate } from '../../data/articles';
+export function getStaticPaths() {
+  return [{ params: { date: issueDate }, props: { date: issueDate } }];
+}
+const {date} = Astro.props as {date:string};
+---
+<BaseLayout title="試作号・バックナンバー | AI最前線新聞">
+  <div class="masthead">
+    <div class="kicker">ARCHIVE · SAMPLE EDITION</div>
+    <h1>バックナンバー</h1>
+    <div class="deck">日付でたどるAIの技術史。</div>
+  </div>
+  <div class="notice" role="note"><strong>試作号：</strong>以下は画面確認用のサンプル記事です。実際の過去ニュースではありません。</div>
+  <div class="section-heading"><h2>{date}｜No. 000</h2><span>DEMO ISSUE</span></div>
+  <ul class="issue-list">
+    {articles.map((article)=><li>
+      <div class="eyebrow">{article.category} / サンプル</div>
+      <a href={`/articles/${article.slug}/`}>{article.title} →</a>
+    </li>)}
+  </ul>
+  <div class="info-strip">
+    <div><strong>本番運用での予定</strong><p>毎日、検証済みの記事だけを号として保存し、公開日時と訂正履歴を残します。</p></div>
+    <a href="/" class="action-link">トップに戻る →</a>
+  </div>
+</BaseLayout>

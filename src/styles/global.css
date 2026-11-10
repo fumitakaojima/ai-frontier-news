@@ -53,3 +53,53 @@ button{font:inherit}
 .issue-list a{font-weight:700}
 @media(max-width:760px){.header-top{align-items:flex-start;flex-direction:column}.site-nav{gap:16px}.hero-story{grid-template-columns:1fr}.hero-art{min-height:210px}.article-grid{grid-template-columns:1fr}.info-strip{display:block}.container,.header-inner{width:min(100% - 32px,1120px)}.masthead{padding-top:26px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Newspaper-first home page — editorial direction agreed 2026-11-09 */
+.edition-mast{margin-top:13px;text-align:center}
+.edition-topline{display:flex;justify-content:space-between;align-items:center;border-block:1px solid #48514b;padding:5px 2px;font:700 10px/1.5 Georgia,serif;letter-spacing:.2em}
+.edition-title{padding:18px 0 9px}
+.edition-title h1{font-family:Georgia,'Noto Sans JP',serif;font-size:clamp(39px,6.1vw,75px);letter-spacing:-.065em;line-height:1.2;margin:0;font-weight:700}
+.edition-title span{display:block;font:700 12px/1.7 Georgia,serif;letter-spacing:.34em;margin-top:4px}
+.edition-tagline{font-size:13px;color:#52605a;margin-bottom:15px}
+.edition-dateline{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:9px 4px;border-block:4px double #253036;font-size:11px;font-weight:700}
+.edition-update{font-size:12px;line-height:1.6;color:#58635d;padding:9px 4px;border-bottom:1px solid #c6ccc5}
+.edition-update strong{color:#2a3733}
+.front-page{margin-bottom:28px}
+.front-page-heading{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 2px 8px;font-size:11px;font-weight:700;letter-spacing:.1em;border-bottom:1px solid #53625b}
+.front-page-heading span:last-child{font-size:10px;letter-spacing:.17em;color:#7a8079}
+.newspaper-grid{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(260px,.9fr);align-items:start;gap:0;border-bottom:4px double #253036}
+.newspaper-grid.single-column{grid-template-columns:minmax(0,1fr)}
+.paper-lead{padding:22px 26px 26px 0}
+.paper-lead h2{font-family:Georgia,'Noto Sans JP',serif;font-size:clamp(33px,4.3vw,53px);line-height:1.38;letter-spacing:-.055em;font-weight:700;margin:14px 0 16px}
+.paper-category{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.03em;color:#a34f30}
+.paper-category span+span{color:#657169;border-left:1px solid #8c9990;padding-left:8px}
+.paper-lead-summary{font-size:15px;line-height:1.95;color:#374741;margin:0 0 14px;max-width:62ch}
+.paper-facts{display:flex;gap:14px;flex-wrap:wrap;margin-top:13px;font-size:11px;color:#65716b}
+.paper-read-more{font-size:12px;color:#a34f30;font-weight:700;display:inline-block;margin-top:12px}
+.paper-rail{border-left:1px solid #aab5ac;padding-left:21px}
+.paper-brief{padding:22px 0 20px;border-bottom:1px solid #b8c1b9}
+.paper-brief:last-child{border-bottom:0}
+.paper-brief h3{font-family:Georgia,'Noto Sans JP',serif;font-size:clamp(19px,2.15vw,25px);line-height:1.45;letter-spacing:-.04em;margin:9px 0}
+.paper-brief p{font-size:12px;color:#55625a;line-height:1.9;margin:0}
+.paper-bottom{display:flex;justify-content:space-between;align-items:center;gap:30px;background:#e8e9e3;padding:18px 22px;margin:22px 0 50px}
+.paper-bottom h2{font-family:Georgia,'Noto Sans JP',serif;font-size:20px;margin:5px 0;letter-spacing:-.03em}
+.paper-bottom p{font-size:12px;color:#53615a;margin:0}
+.paper-bottom .paper-read-more{flex-shrink:0}
+@media(max-width:760px){
+  .edition-topline span{display:none}
+  .edition-title{padding:17px 0 9px}
+  .edition-title h1{font-size:clamp(34px,8vw,56px)}
+  .edition-dateline{font-size:10px;gap:4px}
+  .edition-dateline span:last-child{display:none}
+  .newspaper-grid{grid-template-columns:minmax(0,1fr)}
+  .paper-lead{padding-right:0}
+  .paper-lead h2{font-size:clamp(30px,7vw,42px)}
+  .paper-rail{padding-left:0;border-left:0;border-top:2px solid #253036}
+  .paper-brief h3{font-size:22px}
+  .paper-bottom{display:block;padding:18px}
+}
+@media(min-width:761px) and (max-width:900px){
+  .newspaper-grid{grid-template-columns:minmax(0,1.35fr) minmax(220px,.9fr)}
+  .paper-lead{padding-right:18px}
+  .paper-rail{padding-left:16px}
+}

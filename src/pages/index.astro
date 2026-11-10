@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/broadsheet.css';
 import { articles, issueDate, issueNumber } from '../data/articles';
+import { articleVisual } from '../data/editorialVisuals';
 
 const [lead, ...rest] = articles;
 const leftStory = rest[0];
@@ -17,24 +18,7 @@ const excerpt = (value: string, sentences = 2) => {
   return parts.slice(0, sentences).join('。') + (parts.length > 0 ? '。' : '');
 };
 const articleUrl = (slug: string) => `/articles/${slug}/`;
-const editorialVisuals: Record<string, { src: string; alt: string; caption: string }> = {
-  'gpt-6-cyber-security-research': {
-    src: '/illustrations/cyber-research.svg',
-    alt: 'AIによるソフトウェアの脆弱性調査の概念図。右側にOpenAI発表のベンチマーク値48.5%と32.1%を比較表示。',
-    caption: '編集部制作の概念図・数値はOpenAI発表値',
-  },
-  'cursor-agent-voice-chat': {
-    src: '/illustrations/voice-agent.svg',
-    alt: 'コードを表示するパソコンと、声の波形を示すスマートフォンを組み合わせたAI音声エージェントのイメージ図。',
-    caption: '編集部制作のイメージ図・実際の画面ではありません',
-  },
-  'openai-images-2-6-gif': {
-    src: '/illustrations/image-to-gif.svg',
-    alt: '同じ図形が4コマにわたって動きを変える様子を描いた、静止画像からアニメーションへの概念イラスト。',
-    caption: '編集部制作のイメージ図・実際の生成結果ではありません',
-  },
-};
-const articleVisual = (slug: string) => editorialVisuals[slug];
+
 ---
 
 <BaseLayout title="AI最前線新聞 | AI FRONTIER" description="その日、AIの世界で何が起きたのか。公式発表に基づくAIニュースを30秒要約と技術解説で届ける日本語の新聞。">

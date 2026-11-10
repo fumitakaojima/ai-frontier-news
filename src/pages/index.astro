@@ -17,6 +17,24 @@ const excerpt = (value: string, sentences = 2) => {
   return parts.slice(0, sentences).join('。') + (parts.length > 0 ? '。' : '');
 };
 const articleUrl = (slug: string) => `/articles/${slug}/`;
+const editorialVisuals: Record<string, { src: string; alt: string; caption: string }> = {
+  'gpt-6-cyber-security-research': {
+    src: '/illustrations/cyber-research.svg',
+    alt: 'AIによるソフトウェアの脆弱性調査の概念図。右側にOpenAI発表のベンチマーク値48.5%と32.1%を比較表示。',
+    caption: '編集部制作の概念図・数値はOpenAI発表値',
+  },
+  'cursor-agent-voice-chat': {
+    src: '/illustrations/voice-agent.svg',
+    alt: 'コードを表示するパソコンと、声の波形を示すスマートフォンを組み合わせたAI音声エージェントのイメージ図。',
+    caption: '編集部制作のイメージ図・実際の画面ではありません',
+  },
+  'openai-images-2-6-gif': {
+    src: '/illustrations/image-to-gif.svg',
+    alt: '同じ図形が4コマにわたって動きを変える様子を描いた、静止画像からアニメーションへの概念イラスト。',
+    caption: '編集部制作のイメージ図・実際の生成結果ではありません',
+  },
+};
+const articleVisual = (slug: string) => editorialVisuals[slug];
 ---
 
 <BaseLayout title="AI最前線新聞 | AI FRONTIER" description="その日、AIの世界で何が起きたのか。公式発表に基づくAIニュースを30秒要約と技術解説で届ける日本語の新聞。">
@@ -49,6 +67,14 @@ const articleUrl = (slug: string) => `/articles/${slug}/`;
     <div class:list={['wsj-columns', !leftStory && 'wsj-columns-one', leftStory && !rightStory && 'wsj-columns-two']}>
       <article class="wsj-main-story">
         <div class="wsj-story-label"><span>一面・最重要ニュース</span><span>{lead.category}</span></div>
+        {articleVisual(lead.slug) && (
+          <figure class="wsj-visual wsj-visual-main">
+            <a href={articleUrl(lead.slug)} aria-label={`記事を読む：${lead.title}`}>
+              <img src={articleVisual(lead.slug).src} alt={articleVisual(lead.slug).alt} width="1200" height="640" decoding="async" fetchpriority="high" />
+            </a>
+            <figcaption>{articleVisual(lead.slug).caption}</figcaption>
+          </figure>
+        )}
         <h2><a href={articleUrl(lead.slug)}>{lead.title}</a></h2>
         <p class="wsj-main-summary">{excerpt(lead.summary, 3)}</p>
         <p class="wsj-main-impact">{lead.whyItMatters}</p>
@@ -62,6 +88,14 @@ const articleUrl = (slug: string) => `/articles/${slug}/`;
       {leftStory && (
         <article class="wsj-side-story wsj-side-left">
           <div class="wsj-story-label"><span>注目のニュース</span><span>{leftStory.category}</span></div>
+          {articleVisual(leftStory.slug) && (
+            <figure class="wsj-visual wsj-visual-side">
+              <a href={articleUrl(leftStory.slug)} aria-label={`記事を読む：${leftStory.title}`}>
+                <img src={articleVisual(leftStory.slug).src} alt={articleVisual(leftStory.slug).alt} width="760" height="490" loading="lazy" decoding="async" />
+              </a>
+              <figcaption>{articleVisual(leftStory.slug).caption}</figcaption>
+            </figure>
+          )}
           <h2><a href={articleUrl(leftStory.slug)}>{leftStory.title}</a></h2>
           <p>{excerpt(leftStory.summary, 2)}</p>
           <div class="wsj-story-meta">
@@ -74,6 +108,14 @@ const articleUrl = (slug: string) => `/articles/${slug}/`;
       {rightStory && (
         <article class="wsj-side-story wsj-side-right">
           <div class="wsj-story-label"><span>研究と実践</span><span>{rightStory.category}</span></div>
+          {articleVisual(rightStory.slug) && (
+            <figure class="wsj-visual wsj-visual-side">
+              <a href={articleUrl(rightStory.slug)} aria-label={`記事を読む：${rightStory.title}`}>
+                <img src={articleVisual(rightStory.slug).src} alt={articleVisual(rightStory.slug).alt} width="760" height="490" loading="lazy" decoding="async" />
+              </a>
+              <figcaption>{articleVisual(rightStory.slug).caption}</figcaption>
+            </figure>
+          )}
           <h2><a href={articleUrl(rightStory.slug)}>{rightStory.title}</a></h2>
           <p>{excerpt(rightStory.summary, 2)}</p>
           <div class="wsj-story-meta">

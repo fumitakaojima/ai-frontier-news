@@ -10,6 +10,7 @@ const dateLabel = new Intl.DateTimeFormat('ja-JP', {
   year: 'numeric', month: 'long', day: 'numeric', weekday: 'long',
   timeZone: 'Asia/Tokyo',
 }).format(new Date(issueDate + 'T00:00:00+09:00'));
+const teaser = (summary: string) => summary.includes('。') ? summary.split('。')[0] + '。' : summary;
 const heading = (index: number) => ['第一面', '第二面', '第三面'][index] || '記事';
 ---
 
@@ -60,7 +61,7 @@ const heading = (index: number) => ['第一面', '第二面', '第三面'][index
           </div>
           <div class="brief-content">
             <h2><a href={"/articles/" + article.slug + "/"}>{article.title}</a></h2>
-            <p>{article.summary}</p>
+            <p>{teaser(article.summary)}</p>
           </div>
           <a class="brief-bottom" href={"/articles/" + article.slug + "/"}>続きを読む →</a>
         </article>

@@ -1,0 +1,399 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700;900&display=swap');
+
+/* Every rule is scoped to the newspaper front page or its homepage navigation. */
+.frontpage-container {
+  width: min(1360px, calc(100% - 64px));
+}
+.home-header {
+  background: #f8f6ef;
+  border-bottom: 1px solid #aaa69e;
+}
+.home-header .header-top {
+  width: min(1360px, calc(100% - 64px));
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+.home-header .brand {
+  font-family: Georgia, serif;
+  font-size: 16px;
+  letter-spacing: -.045em;
+}
+.home-header .brand span {
+  font-family: 'Noto Serif JP', 'Yu Mincho', serif;
+  font-size: 10px;
+  letter-spacing: .06em;
+}
+.home-header .site-nav {
+  font-size: 12px;
+  gap: 24px;
+}
+.newsprint {
+  --np-ink: #1b211e;
+  --np-rule: #333b36;
+  --np-muted: #5c625c;
+  --np-scarlet: #a5452c;
+  --np-serif: 'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',Georgia,serif;
+  color: var(--np-ink);
+  padding-bottom: 58px;
+}
+.newsprint a:hover {
+  color: var(--np-scarlet);
+}
+.newsprint-masthead {
+  padding-top: 15px;
+  font-family: var(--np-serif);
+}
+.np-kicker-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 2px solid var(--np-ink);
+  border-bottom: 1px solid var(--np-ink);
+  padding: 6px 1px;
+  font: 700 10px/1.5 Georgia, var(--np-serif);
+  letter-spacing: .16em;
+}
+.np-kicker-line span:nth-child(2) {
+  font-family: var(--np-serif);
+  font-size: 10px;
+  letter-spacing: .10em;
+}
+.np-nameplate {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,10fr) minmax(0,1fr);
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  padding: 12px 0 16px;
+}
+.np-nameplate-rule {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 17px;
+  color: var(--np-ink);
+}
+.np-nameplate-rule::before,
+.np-nameplate-rule::after {
+  content: '';
+  display: block;
+  width: min(35px, 20%);
+  height: 1px;
+  background: currentColor;
+  margin: 0 9px;
+}
+.np-title-box {
+  min-width: 0;
+}
+.np-title-english {
+  display: block;
+  font: 700 12px/1 Georgia,serif;
+  letter-spacing: .34em;
+  margin-bottom: 4px;
+}
+.np-title-box h1 {
+  font-family: var(--np-serif);
+  font-size: clamp(51px, 7.6vw, 108px);
+  font-weight: 900;
+  line-height: 1.25;
+  letter-spacing: -.085em;
+  margin: 0;
+  white-space: nowrap;
+}
+.np-title-box p {
+  font-family: var(--np-serif);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  margin: 0;
+}
+.np-edition-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border-top: 7px double var(--np-rule);
+  border-bottom: 2px solid var(--np-rule);
+  padding: 8px 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .03em;
+}
+.np-edition-strip span:nth-child(2) {
+  font-family: var(--np-serif);
+  font-weight: 900;
+  font-size: 13px;
+}
+.np-release-note {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 7px 4px;
+  border-bottom: 1px solid #b4b2a9;
+  color: var(--np-muted);
+  font-size: 11px;
+  line-height: 1.65;
+}
+.np-release-note strong {
+  flex-shrink: 0;
+  color: var(--np-scarlet);
+  font-family: var(--np-serif);
+}
+.np-front-story {
+  margin: 10px 0 0;
+  padding: 0 0 18px;
+  border-bottom: 4px double var(--np-rule);
+}
+.np-rubric {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 12px 0 4px;
+  letter-spacing: .07em;
+}
+.np-rubric-main {
+  display: inline-block;
+  background: var(--np-ink);
+  color: #fffdf8;
+  padding: 3px 11px;
+  font-family: var(--np-serif);
+  font-size: 12px;
+}
+.np-rubric-date {
+  color: var(--np-muted);
+  font-weight: 500;
+}
+.np-banner-headline {
+  font-family: var(--np-serif);
+  font-size: clamp(40px, 5.8vw, 82px);
+  font-weight: 900;
+  line-height: 1.28;
+  letter-spacing: -.067em;
+  text-align: center;
+  text-wrap: balance;
+  margin: 6px auto 19px;
+  max-width: 1280px;
+  overflow-wrap: anywhere;
+}
+.np-banner-headline a:hover {
+  text-decoration-thickness: 2px;
+}
+.np-banner-bottom {
+  display: grid;
+  grid-template-columns: minmax(0,3fr) minmax(220px,1fr);
+  border-top: 1px solid var(--np-rule);
+  padding-top: 14px;
+}
+.np-banner-deck {
+  font-family: var(--np-serif);
+  font-size: clamp(15px, 1.35vw, 19px);
+  line-height: 1.82;
+  font-weight: 600;
+  padding: 0 23px 0 3px;
+  margin: 0;
+  text-align: justify;
+  text-justify: inter-ideograph;
+}
+.np-banner-caption {
+  display: flex;
+  gap: 11px;
+  border-left: 1px solid #9da39c;
+  padding: 3px 0 3px 18px;
+}
+.np-mini-index {
+  font: 700 34px/1 Georgia,serif;
+  color: var(--np-scarlet);
+}
+.np-banner-caption div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.np-banner-caption strong {
+  font-family: var(--np-serif);
+  font-size: 13px;
+}
+.np-banner-caption div > span {
+  color: var(--np-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.np-banner-caption a {
+  font-size: 12px;
+  font-weight: 700;
+  border-bottom: 1px solid var(--np-rule);
+  width: fit-content;
+  padding-bottom: 3px;
+}
+.np-section {
+  margin-top: 6px;
+}
+.np-section-bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 11px 0 9px;
+  border-bottom: 2px solid var(--np-rule);
+  gap: 12px;
+}
+.np-section-bar h2 {
+  font-family: var(--np-serif);
+  font-size: 21px;
+  line-height: 1.3;
+  font-weight: 900;
+  margin: 0;
+}
+.np-section-bar span {
+  font: 700 10px/1 Georgia,serif;
+  letter-spacing: .19em;
+  color: var(--np-muted);
+}
+.np-report-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-bottom: 2px solid var(--np-rule);
+}
+.np-report-grid--duo { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.np-report-grid--solo { grid-template-columns: 1fr; }
+.np-report {
+  padding: 19px 25px 22px;
+  border-left: 1px solid #9fa8a0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.np-report:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.np-report:last-child {
+  padding-right: 0;
+}
+.np-article-index {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--np-scarlet);
+  font-size: 11px;
+  font-weight: 700;
+}
+.np-article-index span:first-child {
+  font: 700 19px/1 Georgia,serif;
+}
+.np-report h3 {
+  font-family: var(--np-serif);
+  font-size: clamp(21px, 2.15vw, 30px);
+  font-weight: 900;
+  letter-spacing: -.045em;
+  line-height: 1.47;
+  margin: 13px 0 10px;
+  text-wrap: pretty;
+}
+.np-report p {
+  margin: 0 0 12px;
+  font-family: var(--np-serif);
+  font-weight: 500;
+  line-height: 1.93;
+  font-size: 13px;
+  text-align: justify;
+  text-justify: inter-ideograph;
+}
+.np-report .np-report-strong {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.85;
+}
+.np-report-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid #c8cbc4;
+  font-size: 11px;
+  color: var(--np-muted);
+}
+.np-report-footer a {
+  color: var(--np-scarlet);
+  font-weight: 700;
+}
+.np-bottomline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid var(--np-rule);
+  padding: 14px 0;
+  font-size: 12px;
+  margin-top: 13px;
+}
+.np-bottomline div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 14px;
+}
+.np-bottomline span {
+  color: var(--np-muted);
+  font-size: 11px;
+}
+.np-bottomline strong {
+  font-family: var(--np-serif);
+}
+.np-bottomline a {
+  color: var(--np-scarlet);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+@media (max-width: 1000px) {
+  .np-title-box h1 { font-size: clamp(46px, 7.5vw, 82px); }
+  .np-nameplate { grid-template-columns: 1fr 12fr 1fr; }
+  .np-nameplate-rule { font-size: 10px; }
+  .np-nameplate-rule::before, .np-nameplate-rule::after { width: 12px; margin: 0 4px; }
+  .np-banner-headline { font-size: clamp(39px, 6vw, 69px); }
+  .np-report { padding-inline: 17px; }
+}
+@media (max-width: 760px) {
+  .frontpage-container, .home-header .header-top { width: calc(100% - 32px); }
+  .home-header .header-top { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+  .home-header .brand { font-size: 14px; }
+  .home-header .brand span { font-size: 9px; }
+  .home-header .site-nav { gap: 13px; font-size: 11px; }
+  .newsprint-masthead { padding-top: 10px; }
+  .np-kicker-line { font-size: 9px; letter-spacing: .02em; }
+  .np-kicker-line span:nth-child(2), .np-kicker-line span:nth-child(3) { display: none; }
+  .np-nameplate { display: block; padding: 17px 0 15px; }
+  .np-nameplate-rule { display: none; }
+  .np-title-english { font-size: 10px; letter-spacing: .23em; }
+  .np-title-box h1 { font-size: clamp(34px, 8.7vw, 56px); letter-spacing: -.09em; }
+  .np-title-box p { font-size: 10px; letter-spacing: .02em; }
+  .np-edition-strip { font-size: 10px; gap: 8px; }
+  .np-edition-strip span:last-child { display: none; }
+  .np-edition-strip span:nth-child(2) { font-size: 11px; }
+  .np-release-note { font-size: 10px; gap: 8px; }
+  .np-rubric { font-size: 10px; }
+  .np-banner-headline { font-size: clamp(32px, 7.7vw, 50px); line-height: 1.36; margin: 11px 0 14px; text-align: left; }
+  .np-banner-bottom { display: block; }
+  .np-banner-deck { padding: 0; font-size: 14px; line-height: 1.9; }
+  .np-banner-caption { margin-top: 13px; padding: 10px 0 0; border-left: 0; border-top: 1px solid #a8aea7; }
+  .np-banner-caption div { flex-direction: row; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; }
+  .np-banner-caption div > span { display: none; }
+  .np-banner-caption a { font-size: 11px; }
+  .np-report-grid, .np-report-grid--duo { display: block; }
+  .np-report, .np-report:first-child, .np-report:last-child { padding: 17px 0 19px; border: 0; border-bottom: 1px solid #a7afa7; }
+  .np-report:last-child { border-bottom: 0; }
+  .np-report h3 { font-size: 25px; }
+  .np-section-bar h2 { font-size: 19px; }
+  .np-bottomline { align-items: flex-start; flex-direction: column; }
+}
+@media (max-width: 380px) {
+  .frontpage-container,.home-header .header-top { width: calc(100% - 24px); }
+  .np-title-box h1 { font-size: 33px; }
+  .np-banner-headline { font-size: 30px; }
+  .np-rubric { justify-content: flex-start; }
+}

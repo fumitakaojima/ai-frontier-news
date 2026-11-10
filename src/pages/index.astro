@@ -1,54 +1,107 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/frontpage.css';
 import { articles, issueDate, issueNumber } from '../data/articles';
+
 const lead = articles[0];
-const others = articles.slice(1);
-const date = new Intl.DateTimeFormat('ja-JP',{year:'numeric',month:'long',day:'numeric',weekday:'long',timeZone:'Asia/Tokyo'}).format(new Date(issueDate+'T00:00:00+09:00'));
+const secondary = articles.slice(1, 3);
+const dateLabel = new Intl.DateTimeFormat('ja-JP', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  weekday: 'long',
+  timeZone: 'Asia/Tokyo',
+}).format(new Date(issueDate + 'T00:00:00+09:00'));
+const issueLabel = String(issueNumber).padStart(3, '0');
 ---
-<BaseLayout title="AI最前線新聞 | AI FRONTIER" description="AIの進化が、世界をどう変えるのか。公式発表に基づくAIニュースを30秒要約と技術解説で届ける日本語の新聞。">
-  <div class="edition-mast">
-    <div class="edition-topline">THE AI FRONTIER TIMES <span>INDEPENDENT AI NEWSPAPER · JAPAN</span></div>
-    <div class="edition-title"><h1>AI最前線新聞</h1><span>AI FRONTIER</span></div>
-    <div class="edition-tagline">今日の「すごい！」から、AIの未来が見えてくる。</div>
-    <div class="edition-dateline">
-      <span>{date}</span>
-      <span>創刊号　No. {String(issueNumber).padStart(3,'0')}</span>
-      <span>AIの研究・開発・実践</span>
+
+<BaseLayout title="AI最前線新聞 | AI FRONTIER" description="世界のAI技術に、毎号新しい驚きを。一次情報に基づくニュースを、新聞の一面から深く読み解く。">
+  <div class="newsprint">
+    <header class="newsprint-masthead" aria-label="新聞題字・発行情報">
+      <div class="np-kicker-line">
+        <span>THE AI FRONTIER JOURNAL</span>
+        <span>知ることから、未来は変わる。</span>
+        <span>JAPAN · INDEPENDENT EDITION</span>
+      </div>
+      <div class="np-nameplate">
+        <div class="np-nameplate-rule" aria-hidden="true">◆</div>
+        <div class="np-title-box">
+          <span class="np-title-english">AI FRONTIER</span>
+          <h1>AI最前線新聞</h1>
+          <p>その日、世界のAIに何が起きたのか。</p>
+        </div>
+        <div class="np-nameplate-rule" aria-hidden="true">◆</div>
+      </div>
+      <div class="np-edition-strip">
+        <span>{dateLabel}</span>
+        <span>創刊号　第{issueLabel}号</span>
+        <span>研究・技術・プロダクト・実践</span>
+      </div>
+    </header>
+
+    <div class="np-release-note" role="note">
+      <strong>創刊号</strong>
+      <span>一次情報に基づく記事を掲載しています。現在は手動編集で、日次自動発行は準備中です。</span>
+    </div>
+
+    <section class="np-front-story" aria-labelledby="np-front-story-heading">
+      <div class="np-rubric">
+        <span class="np-rubric-main">一面</span>
+        <span>{lead.category}</span>
+        <span class="np-rubric-date">発表 {lead.announcedAt}</span>
+      </div>
+      <h2 id="np-front-story-heading" class="np-banner-headline">
+        <a href={`/articles/${lead.slug}/`}>{lead.title}</a>
+      </h2>
+      <div class="np-banner-bottom">
+        <p class="np-banner-deck">{lead.summary}</p>
+        <div class="np-banner-caption">
+          <span class="np-mini-index">01</span>
+          <div>
+            <strong>今号の最重要ニュース</strong>
+            <span>知りたいのは、何が変わったのか。</span>
+            <a href={`/articles/${lead.slug}/`}>この記事を読む <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="np-section" aria-labelledby="np-section-heading">
+      <div class="np-section-bar">
+        <h2 id="np-section-heading">本日の紙面</h2>
+        <span>REPORTS &amp; PERSPECTIVES</span>
+      </div>
+      <div class:list={['np-report-grid', secondary.length === 0 && 'np-report-grid--solo', secondary.length === 1 && 'np-report-grid--duo']}>
+        <article class="np-report np-report-main">
+          <div class="np-article-index"><span>01</span><span>一面・読み解き</span></div>
+          <h3>この進化は、何を変えるのか</h3>
+          <p class="np-report-strong">{lead.whyItMatters}</p>
+          <p>{lead.technical[0]}</p>
+          <div class="np-report-footer">
+            <span>{lead.readMinutes}分で読む</span>
+            <a href={`/articles/${lead.slug}/`}>解説と出典を見る →</a>
+          </div>
+        </article>
+        {secondary.map((article, index) => (
+          <article class="np-report">
+            <div class="np-article-index">
+              <span>{String(index + 2).padStart(2, '0')}</span>
+              <span>{article.category}</span>
+            </div>
+            <h3><a href={`/articles/${article.slug}/`}>{article.title}</a></h3>
+            <p>{article.summary}</p>
+            <div class="np-report-footer">
+              <span>発表 {article.announcedAt}</span>
+              <a href={`/articles/${article.slug}/`}>続きを読む →</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <div class="np-bottomline">
+      <div><span>AI最前線新聞｜創刊号</span><strong>気になった記事から、30秒で読む。</strong></div>
+      <a href={`/issues/${issueDate}/`}>創刊号の全記事を見る →</a>
     </div>
   </div>
-
-  <div class="edition-update" role="note">
-    <strong>創刊号を公開しました。</strong>
-    公式発表をもとに編集した3本を掲載しています。日次自動発行は準備中です。
-  </div>
-
-  <section class="front-page" aria-labelledby="top-title">
-    <div class="front-page-heading"><span id="top-title">本日の一面</span><span>THE FRONT PAGE</span></div>
-    <div class={others.length ? 'newspaper-grid' : 'newspaper-grid single-column'}>
-      <article class="paper-lead">
-        <div class="paper-category"><span>一面記事</span><span>{lead.category}</span></div>
-        <h2><a href={`/articles/${lead.slug}/`}>{lead.title}</a></h2>
-        <p class="paper-lead-summary">{lead.summary}</p>
-        <div class="paper-facts"><span>発表日：{lead.announcedAt}</span><span>{lead.readMinutes}分で読む</span></div>
-        <a href={`/articles/${lead.slug}/`} class="paper-read-more">全文を読む <span aria-hidden="true">→</span></a>
-      </article>
-      {others.length > 0 && <aside class="paper-rail" aria-label="今号の関連ニュース">
-        {others.map((article, i) => <article class="paper-brief">
-          <div class="paper-category"><span>{i === 0 ? '第二面' : '第三面'}</span><span>{article.category}</span></div>
-          <h3><a href={`/articles/${article.slug}/`}>{article.title}</a></h3>
-          <p>{article.summary}</p>
-          <div class="paper-facts"><span>発表日：{article.announcedAt}</span><span>{article.readMinutes}分</span></div>
-          <a class="paper-read-more" href={`/articles/${article.slug}/`}>記事を読む <span aria-hidden="true">→</span></a>
-        </article>)}
-      </aside>}
-    </div>
-  </section>
-  <section class="paper-bottom" aria-label="今号の読み方">
-    <div>
-      <span class="eyebrow">HOW TO READ</span>
-      <h2>ニュースを知る。気になったら深く読む。</h2>
-      <p>それぞれの記事には、30秒で読める要約と、技術を深掘りする解説、一次情報へのリンクがあります。</p>
-    </div>
-    <a class="paper-read-more" href={`/issues/${issueDate}/`}>創刊号をまとめて読む →</a>
-  </section>
 </BaseLayout>

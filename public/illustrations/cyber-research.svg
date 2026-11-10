@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-labelledby="t d">
+<title id="t">セキュリティ研究AIがコードの弱点を分析する概念図</title>
+<desc id="d">プログラムの断片を検査する光のスキャンと防御シールド、OpenAI発表のExploitGym比較値48.5%と32.1%をまとめた編集用イメージ図。実在の製品画面ではありません。</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#081926"/><stop offset=".55" stop-color="#112d40"/><stop offset="1" stop-color="#0b1721"/></linearGradient>
+<linearGradient id="blade" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#79e2d8" stop-opacity=".88"/><stop offset="1" stop-color="#2b83b6" stop-opacity=".22"/></linearGradient>
+<linearGradient id="shield" x1=".3" y1="0" x2=".75" y2="1"><stop stop-color="#9ce1dc"/><stop offset=".45" stop-color="#3b9eb5"/><stop offset="1" stop-color="#104966"/></linearGradient>
+<linearGradient id="chart" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#5de2ce"/><stop offset="1" stop-color="#a6e6dd"/></linearGradient>
+<filter id="glow"><feGaussianBlur stdDeviation="6"/></filter>
+<pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#87c9d1" stroke-opacity=".09" stroke-width="1"/></pattern>
+</defs>
+<rect width="1200" height="640" fill="url(#bg)"/>
+<rect width="1200" height="640" fill="url(#grid)"/>
+<g fill="none" stroke="#3f8b9c" stroke-width="2" opacity=".27">
+<path d="M0 80H135L178 123H335"/><path d="M0 510H170L224 456H440"/><path d="M1200 105H1042L985 165H850"/><path d="M1200 566H1007L962 511H765"/>
+</g>
+<g fill="#5bd9d3"><circle cx="178" cy="123" r="5"/><circle cx="224" cy="456" r="5"/><circle cx="985" cy="165" r="4"/><circle cx="962" cy="511" r="5"/></g>
+<rect x="50" y="62" width="603" height="510" rx="20" fill="#06131f" stroke="#356177" stroke-width="3"/>
+<rect x="50" y="62" width="603" height="55" rx="20" fill="#153649"/><path d="M50 99H653" stroke="#356177" stroke-width="2"/>
+<circle cx="85" cy="90" r="7" fill="#d87169"/><circle cx="111" cy="90" r="7" fill="#dba95d"/><circle cx="137" cy="90" r="7" fill="#5fafab"/>
+<text x="180" y="97" fill="#c9e2e3" font-family="monospace" font-size="17" letter-spacing="2">SECURITY ANALYSIS</text>
+<g font-family="monospace" font-size="17">
+<text x="87" y="158" fill="#658498">01</text><text x="137" y="158" fill="#75c7c7">function</text><text x="244" y="158" fill="#dde5d9"> inspect(request) {</text>
+<text x="87" y="194" fill="#658498">02</text><text x="165" y="194" fill="#d6e8d9">const result =</text><text x="339" y="194" fill="#eeb77a"> evaluate</text><text x="438" y="194" fill="#e2e7dd">();</text>
+<text x="87" y="230" fill="#658498">03</text><text x="165" y="230" fill="#d6e8d9">check_permissions();</text>
+<text x="87" y="266" fill="#658498">04</text><text x="165" y="266" fill="#d6e8d9">compare_patterns();</text>
+<text x="87" y="302" fill="#658498">05</text><text x="165" y="302" fill="#d6e8d9">trace_execution();</text>
+<text x="87" y="338" fill="#658498">06</text><text x="165" y="338" fill="#9de8d0">potential_issue</text><text x="334" y="338" fill="#d6e8d9"> = true;</text>
+<text x="87" y="374" fill="#658498">07</text><text x="165" y="374" fill="#d6e8d9">report(findings);</text>
+<text x="87" y="410" fill="#658498">08</text><text x="137" y="410" fill="#d6e8d9">}</text>
+</g>
+<rect x="146" y="314" width="397" height="40" rx="5" fill="#c67b60" fill-opacity=".15" stroke="#e89478" stroke-width="2" stroke-dasharray="8 5"/>
+<rect x="85" y="454" width="511" height="76" rx="8" fill="#0e2e3d" stroke="#3a6372"/>
+<path d="M110 488H324M110 511H237M347 488H550M268 511H482" stroke="#64afbc" stroke-opacity=".65" stroke-width="8" stroke-linecap="round"/>
+<circle cx="632" cy="336" r="119" fill="#40cdc6" opacity=".19" filter="url(#glow)"/>
+<circle cx="632" cy="336" r="107" fill="url(#blade)" opacity=".24"/>
+<circle cx="632" cy="336" r="110" fill="none" stroke="#6fe7dc" stroke-opacity=".72" stroke-width="4" stroke-dasharray="22 14"/>
+<path d="M632 260L710 289V344Q703 414 632 447Q561 414 554 344V289Z" fill="url(#shield)" stroke="#a4f6e2" stroke-width="5"/>
+<path d="M598 348L622 373L668 322" fill="none" stroke="#ddfdf3" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="821" y="70" width="335" height="488" rx="16" fill="#091c29" fill-opacity=".9" stroke="#467083" stroke-width="2"/>
+<text x="850" y="112" fill="#86d8d1" font-family="Arial,sans-serif" font-size="19" font-weight="bold" letter-spacing="2">RESEARCH BENCHMARK</text>
+<text x="850" y="156" fill="#ecf8f3" font-family="Arial,sans-serif" font-weight="bold" font-size="30">ExploitGym</text>
+<path d="M850 177H1124" stroke="#456a79"/>
+<text x="850" y="223" fill="#c6e0e1" font-family="Arial,sans-serif" font-size="21">GPT-6 Cyber</text>
+<rect x="850" y="239" width="246" height="25" rx="5" fill="#183b4a"/>
+<rect x="850" y="239" width="198" height="25" rx="5" fill="url(#chart)"/>
+<text x="850" y="307" fill="#f6f5eb" font-family="Arial,sans-serif" font-size="34" font-weight="bold">48.5%</text>
+<text x="850" y="363" fill="#c6e0e1" font-family="Arial,sans-serif" font-size="21">GPT-5.6 Cyber</text>
+<rect x="850" y="378" width="246" height="25" rx="5" fill="#183b4a"/>
+<rect x="850" y="378" width="131" height="25" rx="5" fill="#698b99"/>
+<text x="850" y="449" fill="#e6eee8" font-family="Arial,sans-serif" font-size="34" font-weight="bold">32.1%</text>
+<text x="850" y="511" fill="#80aeb8" font-family="Arial,sans-serif" font-size="15">As reported by OpenAI</text>
+</svg>

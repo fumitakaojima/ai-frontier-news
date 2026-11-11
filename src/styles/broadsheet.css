@@ -121,3 +121,46 @@
  .wsj-main-story h2{font-size:clamp(28px,7vw,39px)}
  .wsj-side-story h2{font-size:23px}
 }
+
+/* Visual-led front page: three images share a top edge; the lead owns the largest area. */
+.wsj-title{padding-block:7px 9px}
+.wsj-section-label{padding-top:8px}
+.wsj-main-story{padding:12px 17px 16px}
+.wsj-side-story{padding-top:12px;padding-bottom:16px}
+.wsj-visual{margin:9px 0 10px}
+.wsj-visual img{border:0;transition:filter .2s ease}
+.wsj-visual a:hover img{filter:brightness(1.06)}
+.wsj-visual-main img{aspect-ratio:3/2}
+.wsj-visual-side img{aspect-ratio:1/1;object-fit:cover}
+.wsj-visual figcaption{font-size:10px;line-height:1.5}
+.wsj-main-story h2{font-size:clamp(29px,2.8vw,40px);line-height:1.35;margin:9px 0}
+.wsj-main-summary{font-size:13px;line-height:1.85;font-weight:500}
+.wsj-side-story h2{font-size:clamp(19px,1.65vw,23px);line-height:1.45;margin:9px 0}
+.wsj-side-story p{font-size:12px;line-height:1.85}
+.wsj-inside{padding-top:11px}
+.wsj-inside-heading h2{font-size:17px}
+.wsj-inside-thumb{flex:0 0 86px;align-self:flex-start}
+.wsj-inside-thumb img{display:block;width:86px;height:72px;object-fit:cover}
+.wsj-inside-grid article>div{min-width:0}
+.wsj-inside-grid h3{font-size:13px}
+.wsj-inside-grid p{display:none}
+@media(min-width:1100px){.wsj-columns{grid-template-columns:minmax(0,1fr) minmax(0,2.1fr) minmax(0,1fr)}.wsj-columns-one{grid-template-columns:1fr}.wsj-columns-two{grid-template-columns:1fr 2.1fr}}
+@media(max-width:740px){
+ .wsj-main-story,.wsj-side-story{padding-inline:0}
+ .wsj-main-story h2{font-size:clamp(28px,7vw,39px)}
+ .wsj-main-summary,.wsj-side-story p{font-size:14px}
+ .wsj-side-story h2{font-size:24px}
+ .wsj-visual-side img{aspect-ratio:3/2}
+ .wsj-inside-thumb{flex-basis:92px}.wsj-inside-thumb img{width:92px;height:70px}
+}
+@media(prefers-reduced-motion:reduce){.wsj-visual img{transition:none}}
+@media(min-width:741px){
+ .wsj-overline{border-bottom:0;padding-block:3px}
+ .wsj-title{padding:1px 0 5px}
+ .wsj-english{font-size:9px;margin:0}
+ .wsj-title h1{font-size:clamp(40px,4.2vw,58px)}
+ .wsj-dateline{padding-block:5px}
+ .wsj-section-label{padding:5px 1px}
+ .wsj-visual-main img{aspect-ratio:2.2/1}
+ .wsj-visual-side img{aspect-ratio:3/2}
+}

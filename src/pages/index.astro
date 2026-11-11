@@ -54,14 +54,14 @@ const articleUrl = (slug: string) => `/articles/${slug}/`;
         {articleVisual(lead.slug) && (
           <figure class="wsj-visual wsj-visual-main">
             <a href={articleUrl(lead.slug)} aria-label={`記事を読む：${lead.title}`}>
-              <img src={articleVisual(lead.slug).src} alt={articleVisual(lead.slug).alt} width="1200" height="640" decoding="async" fetchpriority="high" />
+              <img src={articleVisual(lead.slug).src} alt={articleVisual(lead.slug).alt} width="1200" height="800" decoding="async" fetchpriority="high" />
             </a>
             <figcaption>{articleVisual(lead.slug).caption}</figcaption>
           </figure>
         )}
         <h2><a href={articleUrl(lead.slug)}>{lead.title}</a></h2>
-        <p class="wsj-main-summary">{excerpt(lead.summary, 3)}</p>
-        <p class="wsj-main-impact">{lead.whyItMatters}</p>
+        <p class="wsj-main-summary">{excerpt(lead.summary, 2)}</p>
+
         <div class="wsj-story-meta">
           <span>発表 {lead.announcedAt}</span>
           <span>読了目安 {lead.readMinutes}分</span>
@@ -75,7 +75,7 @@ const articleUrl = (slug: string) => `/articles/${slug}/`;
           {articleVisual(leftStory.slug) && (
             <figure class="wsj-visual wsj-visual-side">
               <a href={articleUrl(leftStory.slug)} aria-label={`記事を読む：${leftStory.title}`}>
-                <img src={articleVisual(leftStory.slug).src} alt={articleVisual(leftStory.slug).alt} width="760" height="490" loading="lazy" decoding="async" />
+                <img src={articleVisual(leftStory.slug).src} alt={articleVisual(leftStory.slug).alt} width="760" height="507" loading="eager" decoding="async" />
               </a>
               <figcaption>{articleVisual(leftStory.slug).caption}</figcaption>
             </figure>
@@ -95,7 +95,7 @@ const articleUrl = (slug: string) => `/articles/${slug}/`;
           {articleVisual(rightStory.slug) && (
             <figure class="wsj-visual wsj-visual-side">
               <a href={articleUrl(rightStory.slug)} aria-label={`記事を読む：${rightStory.title}`}>
-                <img src={articleVisual(rightStory.slug).src} alt={articleVisual(rightStory.slug).alt} width="760" height="490" loading="lazy" decoding="async" />
+                <img src={articleVisual(rightStory.slug).src} alt={articleVisual(rightStory.slug).alt} width="760" height="507" loading="eager" decoding="async" />
               </a>
               <figcaption>{articleVisual(rightStory.slug).caption}</figcaption>
             </figure>
@@ -116,9 +116,9 @@ const articleUrl = (slug: string) => `/articles/${slug}/`;
         <span>INSIDE THIS ISSUE</span>
       </div>
       <div class="wsj-inside-grid">
-        {articles.map((article, index) => (
+        {articles.map((article) => (
           <article>
-            <span class="wsj-inside-number">{String(index + 1).padStart(2, '0')}</span>
+            {articleVisual(article.slug) && <a class="wsj-inside-thumb" href={articleUrl(article.slug)} aria-label={`記事を読む：${article.title}`}><img src={articleVisual(article.slug).src} alt={articleVisual(article.slug).alt} width="120" height="80" loading="lazy" /></a>}
             <div>
               <div class="wsj-inside-category">{article.category} · {article.readMinutes}分</div>
               <h3><a href={articleUrl(article.slug)}>{article.title}</a></h3>

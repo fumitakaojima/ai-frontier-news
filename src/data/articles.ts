@@ -1,4 +1,4 @@
-import catalog from './articles.json';
+import latest from './articles.json';
 
 export type Article = {
   slug: string;
@@ -15,6 +15,14 @@ export type Article = {
   sources: { label: string; url: string }[];
 };
 
-export const issueDate: string = catalog.issueDate;
-export const issueNumber: number = catalog.issueNumber;
-export const articles: Article[] = catalog.articles as Article[];
+export type Issue = { issueDate: string; issueNumber: number; articles: Article[] };
+
+const archivedModules = import.meta.glob<{ default: Issue }>('./issues/*.json', { eager: true });
+export const issues: Issue[] = Object.values(archivedModules)
+  .map((module) => module.default)
+  .sort((a, b) => b.issueDate.localeCompare(a.issueDate));
+
+export const allArticles: Article[] = issues.flatMap((issue) => issue.articles);
+export const issueDate: string = latest.issueDate;
+export const issueNumber: number = latest.issueNumber;
+export const articles: Article[] = latest.articles as Article[];

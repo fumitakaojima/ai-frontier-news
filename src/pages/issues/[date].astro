@@ -1,27 +1,34 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { articles, issueDate, issueNumber } from '../../data/articles';
+import { issues, type Issue } from '../../data/articles';
+
 export function getStaticPaths() {
-  return [{ params: { date: issueDate }, props: { date: issueDate } }];
+  return issues.map((issue) => ({
+    params: { date: issue.issueDate },
+    props: { issue },
+  }));
 }
-const {date} = Astro.props as {date:string};
+const { issue } = Astro.props as { issue: Issue };
 ---
-<BaseLayout title="バックナンバー | AI最前線新聞">
+<BaseLayout title={`${issue.issueDate}の新聞 | AI最前線新聞`}>
   <div class="masthead">
-    <div class="kicker">ARCHIVE · FIRST EDITION</div>
-    <h1>バックナンバー</h1>
-    <div class="deck">AIの進化を、日付でたどる。</div>
+    <div class="kicker">AI FRONTIER · ARCHIVE</div>
+    <h1>{issue.issueDate}の新聞</h1>
+    <div class="deck">第{String(issue.issueNumber).padStart(3, '0')}号の全記事</div>
   </div>
-  <div class="notice" role="note">現在は創刊号のみを掲載しています。日々の発行と過去号の蓄積は、発行システムの整備後に開始します。</div>
-  <div class="section-heading"><h2>{date}｜創刊号 No. {String(issueNumber).padStart(3,'0')}</h2><span>FIRST EDITION</span></div>
+  <div class="section-heading">
+    <h2>今号の記事</h2>
+    <span>{issue.articles.length} STORIES</span>
+  </div>
   <ul class="issue-list">
-    {articles.map((article)=><li>
+    {issue.articles.map((article) => <li>
       <div class="eyebrow">{article.category} ／ 公式発表 {article.announcedAt}</div>
       <a href={`/articles/${article.slug}/`}>{article.title} →</a>
+      <p style="color:#65706a;font-size:13px">{article.summary}</p>
     </li>)}
   </ul>
   <div class="info-strip">
-    <div><strong>出典の確認を大切に。</strong><p>記事の内容は各発表元の一次情報を参照できます。発表日と本紙掲載日を区別して表示しています。</p></div>
-    <a href="/" class="action-link">一面へ戻る →</a>
+    <div><strong>出典の確認を大切に。</strong><p>発表日と本紙掲載日を区別し、各記事に一次情報と検証上の注意を記載しています。</p></div>
+    <a href="/archive/" class="action-link">全バックナンバーを見る →</a>
   </div>
 </BaseLayout>

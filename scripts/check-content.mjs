@@ -1,35 +1,77 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { resolve } from 'node:path';
 
-const data = JSON.parse(readFileSync(new URL('../src/data/articles.json', import.meta.url), 'utf8'));
-const trustedHosts = new Set(['openai.com', 'www.anthropic.com', 'cursor.com', 'github.blog', 'blog.google']);
+const root = process.cwd();
+const json = (filename) => JSON.parse(readFileSync(resolve(root, filename), 'utf8'));
+const current = json('src/data/articles.json');
+const fileNames = readdirSync(resolve(root, 'src/data/issues'))
+  .filter((name) => /^\d{4}-\d{2}-\d{2}\.json$/.test(name))
+  .sort();
+const issues = fileNames.map((name) => json('src/data/issues/' + name));
+
+const trustedHosts = new Set([
+  'openai.com', 'www.openai.com',
+  'www.anthropic.com', 'anthropic.com',
+  'cursor.com', 'github.blog',
+  'deepmind.google', 'code.claude.com',
+  'blog.google',
+]);
 const assert = (condition, message) => {
   if (!condition) throw new Error(message);
 };
-const isISODate = (value) => /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(value));
+const isISODate = (value) =>
+  typeof value === 'string' &&
+  /^\d{4}-\d{2}-\d{2}$/.test(value) &&
+  new Date(value + 'T00:00:00Z').toISOString().slice(0, 10) === value;
 
-assert(isISODate(data.issueDate), '発行日が不正です');
-assert(Number.isInteger(data.issueNumber) && data.issueNumber > 0, '号数が不正です');
-assert(Array.isArray(data.articles) && data.articles.length >= 1 && data.articles.length <= 3, '1号あたりの発行件数は1〜3件です');
+assert(issues.length >= 1, 'At least one archived issue required.');
+assert(current.issueDate === issues.at(-1).issueDate, 'Latest issue does not match archive.');
+assert(JSON.stringify(current) === JSON.stringify(issues.at(-1)), 'Latest issue differs from its archived snapshot.');
 
-const slugs = new Set();
-for (const article of data.articles) {
-  assert(/^[a-z0-9-]+$/.test(article.slug), '記事slugが不正です');
-  assert(!slugs.has(article.slug), '記事slugが重複しています');
-  slugs.add(article.slug);
-  assert(article.title?.length >= 12, '記事見出しが不足しています');
-  assert(article.summary?.length >= 40, '30秒要約が不足しています');
-  assert(Array.isArray(article.technical) && article.technical.length >= 2, '技術解説が不足しています');
-  assert(article.whyItMatters?.length >= 20, '意義の説明が不足しています');
-  assert(article.caveat?.length >= 20, '検証上の留意点が不足しています');
-  assert(isISODate(article.publishedAt) && isISODate(article.announcedAt), '記事の日付が不正です');
-  assert(article.publishedAt === data.issueDate, '発行日と記事の日付が一致しません');
-  assert(article.announcedAt <= article.publishedAt, '発表日が発行日より後です');
-  assert(Array.isArray(article.sources) && article.sources.length >= 1, '出典のない記事は公開できません');
-  for (const source of article.sources) {
-    const url = new URL(source.url);
-    assert(url.protocol === 'https:' && trustedHosts.has(url.hostname), '許可されない出典ドメインです');
-    assert(source.label?.length >= 10, '出典の説明が不足しています');
+const articleSlugs = new Set();
+const issueDates = new Set();
+let articleCount = 0;
+
+for (const issue of issues) {
+  assert(isISODate(issue.issueDate), 'Invalid issue date.');
+  assert(!issueDates.has(issue.issueDate), 'Repeated issue date.');
+  issueDates.add(issue.issueDate);
+  assert(Number.isInteger(issue.issueNumber) && issue.issueNumber >= 1, 'Invalid issue number.');
+  assert(Array.isArray(issue.articles) && issue.articles.length >= 1 && issue.articles.length <= 3, 'Issue must have 1-3 articles.');
+  for (const article of issue.articles) {
+    articleCount++;
+    assert(typeof article.slug === 'string' && /^[a-z0-9-]{8,120}$/.test(article.slug), 'Invalid slug.');
+    assert(!articleSlugs.has(article.slug), 'Historical article URL collision.');
+    articleSlugs.add(article.slug);
+    assert(typeof article.title === 'string' && article.title.length >= 12 && article.title.length <= 100, 'Title length invalid.');
+    assert(typeof article.summary === 'string' && article.summary.length >= 40 && article.summary.length <= 550, 'Summary length invalid.');
+    assert(Array.isArray(article.technical) && article.technical.length >= 2 && article.technical.length <= 4, 'Technical details missing.');
+    assert(article.technical.every(p => typeof p === 'string' && p.length >= 30), 'Technical detail too short.');
+    assert(typeof article.whyItMatters === 'string' && article.whyItMatters.length >= 20, 'Why-it-matters missing.');
+    assert(typeof article.caveat === 'string' && article.caveat.length >= 20, 'Limitations missing.');
+    assert(typeof article.category === 'string' && article.category.length >= 2, 'Category missing.');
+    assert(isISODate(article.publishedAt) && isISODate(article.announcedAt), 'Invalid article dates.');
+    assert(article.publishedAt === issue.issueDate, 'Article published date must match its issue.');
+    assert(article.announcedAt <= article.publishedAt, 'Source announcement is after issue date.');
+    assert(Number.isInteger(article.readMinutes) && article.readMinutes >= 1 && article.readMinutes <= 30, 'Reading time invalid.');
+    assert(Array.isArray(article.sources) && article.sources.length >= 1 && article.sources.length <= 4, 'Primary source missing.');
+    for (const source of article.sources) {
+      const url = new URL(source.url);
+      assert(url.protocol === 'https:' && trustedHosts.has(url.hostname), 'Source domain not trusted.');
+      assert(typeof source.label === 'string' && source.label.length >= 10, 'Source label missing.');
+    }
   }
 }
-console.log('初号の出典・形式・日付・掲載件数の静的検査が成功しました。');
-console.log('注：URLの実在や主張の裏付けを自動検証したものではありません。');
+for (let i = 1; i < issues.length; i++) {
+  assert(issues[i].issueNumber > issues[i - 1].issueNumber, 'Issue numbers must increase.');
+}
+const visuals = json('src/data/visuals.generated.json');
+for (const [slug, item] of Object.entries(visuals)) {
+  assert(articleSlugs.has(slug), 'Visual exists for unknown article.');
+  assert(typeof item.src === 'string' && /^\/images\/auto\/[a-z0-9-]+\.jpg$/.test(item.src), 'Unsafe image path.');
+  assert(existsSync(resolve(root, 'public', item.src.slice(1))), 'Generated visual asset missing.');
+  assert(typeof item.alt === 'string' && item.alt.length >= 20, 'Image alt missing.');
+  assert(typeof item.caption === 'string' && item.caption.length >= 20, 'Concept art disclosure missing.');
+}
+console.log('Content validation passed: ' + issues.length + ' archived issues, ' + articleCount + ' unique articles.');
+console.log('Warning: formatting checks and URL allowlists are NOT independent factual verification.');

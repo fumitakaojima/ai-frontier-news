@@ -1,0 +1,54 @@
+name: AI FRONTIER Daily Edition
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 08:17 JST, not exactly at the hour to reduce GitHub scheduler congestion.
+    - cron: '17 23 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ai-frontier-daily-edition
+  cancel-in-progress: false
+
+jobs:
+  editorial:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - name: Check out latest main
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install static-site dependencies
+        run: npm install --no-audit --no-fund
+      - name: Test editorial guardrails (offline)
+        run: python3 scripts/publish_daily.py --self-test
+      - name: Generate vetted edition or safely skip
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_WORKERS_AI_TOKEN: ${{ secrets.CF_WORKERS_AI_TOKEN }}
+          CF_WORKERS_FREE_CONFIRMED: ${{ vars.CF_WORKERS_FREE_CONFIRMED }}
+        run: python3 scripts/publish_daily.py
+      - name: Validate all articles and build the complete newspaper
+        run: |
+          npm run check:content
+          npm run build
+      - name: Commit only a validated issue
+        run: |
+          if [ -z "$(git status --porcelain -- src/data/articles.json src/data/issues/ src/data/visuals.generated.json public/images/auto/)" ]; then
+            echo "NO_EDITION: Quality gates held all candidates or no source updates."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/articles.json src/data/issues/ src/data/visuals.generated.json public/images/auto/
+          git commit -m "news: publish a validated daily AI edition [skip ci]"
+          git push origin HEAD:main

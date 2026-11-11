@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { articles, type Article } from '../../data/articles';
+import { allArticles, type Article } from '../../data/articles';
 import { articleVisual } from '../../data/editorialVisuals';
 export function getStaticPaths() {
-  return articles.map((article) => ({
+  return allArticles.map((article) => ({
     params: { slug: article.slug },
     props: { article },
   }));

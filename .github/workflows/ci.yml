@@ -23,7 +23,9 @@ jobs:
           node-version: '24'
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Check sample content
+      - name: Test daily publisher safety rules
+        run: python3 scripts/publish_daily.py --self-test
+      - name: Check archived content
         run: npm run check:content
       - name: Build static pages
         run: npm run build

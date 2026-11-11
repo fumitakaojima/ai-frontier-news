@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 490" role="img" aria-labelledby="t d">
+<title id="t">静止画像からGIFアニメーションへ、複数フレームを示す概念イラスト</title>
+<desc id="d">同じ図形が4コマにわたって形と位置を変える過程を描いた編集部制作のイメージ図。画像生成サービスの実際の画面ではありません。</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2d1e3e"/><stop offset=".52" stop-color="#51445f"/><stop offset="1" stop-color="#172d48"/></linearGradient>
+<linearGradient id="panel" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#faf1df"/><stop offset="1" stop-color="#d9d6df"/></linearGradient>
+<linearGradient id="shape" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffba75"/><stop offset=".55" stop-color="#e87b8d"/><stop offset="1" stop-color="#9a81dc"/></linearGradient>
+<filter id="shadow"><feGaussianBlur stdDeviation="8"/></filter>
+</defs>
+<rect width="760" height="490" fill="url(#bg)"/>
+<g opacity=".22" stroke="#c2b7ec" fill="none">
+<circle cx="631" cy="63" r="180"/><circle cx="631" cy="63" r="120"/><path d="M0 419L225 194L456 446L760 153"/>
+</g>
+<text x="36" y="60" fill="#f8ebef" font-family="Arial,sans-serif" font-size="22" font-weight="bold" letter-spacing="2">IMAGE → MOTION</text>
+<rect x="530" y="25" width="189" height="48" rx="24" fill="#ebdbe6" fill-opacity=".16" stroke="#ead9eb" stroke-opacity=".6"/>
+<text x="573" y="56" fill="#fff1e2" font-family="Arial,sans-serif" font-size="23" font-weight="bold" letter-spacing="3">GIF</text>
+<g>
+<rect x="37" y="130" width="160" height="253" rx="12" fill="#050a14" opacity=".25" filter="url(#shadow)"/>
+<rect x="37" y="120" width="160" height="253" rx="12" fill="url(#panel)"/>
+<rect x="212" y="130" width="160" height="253" rx="12" fill="#050a14" opacity=".25" filter="url(#shadow)"/>
+<rect x="212" y="120" width="160" height="253" rx="12" fill="url(#panel)"/>
+<rect x="387" y="130" width="160" height="253" rx="12" fill="#050a14" opacity=".25" filter="url(#shadow)"/>
+<rect x="387" y="120" width="160" height="253" rx="12" fill="url(#panel)"/>
+<rect x="562" y="130" width="160" height="253" rx="12" fill="#050a14" opacity=".25" filter="url(#shadow)"/>
+<rect x="562" y="120" width="160" height="253" rx="12" fill="url(#panel)"/>
+</g>
+<g stroke="#a68c9b" stroke-opacity=".35" stroke-width="2"><path d="M60 321H176M235 321H351M410 321H526M585 321H701"/></g>
+<g fill="#f1d1be" opacity=".35"><circle cx="117" cy="216" r="70"/><circle cx="292" cy="216" r="70"/><circle cx="467" cy="216" r="70"/><circle cx="642" cy="216" r="70"/></g>
+<g fill="url(#shape)" stroke="#f9e4d5" stroke-width="4">
+<path d="M118 157C141 157 166 178 165 208C164 242 144 262 117 264C90 262 68 240 68 209C68 176 88 157 118 157Z"/>
+<path d="M270 164C298 152 328 174 335 198C343 226 322 254 297 263C265 269 238 247 238 216C238 193 253 174 270 164Z"/>
+<path d="M456 157C479 160 515 183 514 209C512 240 489 263 462 258C433 254 412 230 417 201C423 175 439 158 456 157Z"/>
+<path d="M644 161C671 161 695 187 693 215C691 245 668 262 641 258C612 254 594 230 594 206C594 179 615 161 644 161Z"/>
+</g>
+<g fill="none" stroke="#fff6e8" stroke-width="5" stroke-linecap="round">
+<path d="M103 210L114 223L133 195"/><path d="M276 208L290 218L306 197"/><path d="M448 206L461 220L481 194"/><path d="M626 208L639 222L660 194"/>
+</g>
+<g fill="#342e43" font-family="Arial,sans-serif" font-weight="bold" font-size="16">
+<text x="99" y="348">01</text><text x="274" y="348">02</text><text x="449" y="348">03</text><text x="624" y="348">04</text>
+</g>
+<g stroke="#f8b4ae" stroke-width="5" stroke-linecap="round" fill="none">
+<path d="M199 246L209 246"/><path d="M374 246L384 246"/><path d="M549 246L559 246"/>
+</g>
+<rect x="220" y="420" width="324" height="39" rx="19" fill="#e6dfec" fill-opacity=".17" stroke="#eecee1" stroke-opacity=".75"/>
+<text x="270" y="446" fill="#fff3ee" font-family="Arial,sans-serif" font-size="17" font-weight="bold" letter-spacing="3">FOUR FRAMES</text>
+</svg>

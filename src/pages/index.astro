@@ -1,49 +1,137 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/broadsheet.css';
 import { articles, issueDate, issueNumber } from '../data/articles';
-const lead = articles[0];
-const others = articles.slice(1);
-const formatted = new Intl.DateTimeFormat('ja-JP',{year:'numeric',month:'long',day:'numeric',weekday:'long',timeZone:'Asia/Tokyo'}).format(new Date(issueDate+'T00:00:00+09:00'));
+import { articleVisual } from '../data/editorialVisuals';
+
+const [lead, ...rest] = articles;
+const leftStory = rest[0];
+const rightStory = rest[1];
+const issueLabel = String(issueNumber).padStart(3, '0');
+const dateLabel = new Intl.DateTimeFormat('ja-JP', {
+  year: 'numeric', month: 'long', day: 'numeric', weekday: 'long',
+  timeZone: 'Asia/Tokyo',
+}).format(new Date(issueDate + 'T00:00:00+09:00'));
+
+const excerpt = (value: string, sentences = 2) => {
+  const parts = value.split('。').map((part) => part.trim()).filter(Boolean);
+  return parts.slice(0, sentences).join('。') + (parts.length > 0 ? '。' : '');
+};
+const articleUrl = (slug: string) => `/articles/${slug}/`;
+
 ---
-<BaseLayout title="AI最前線新聞 | AI FRONTIER" description="AIの進化が、世界をどう変えるのか。公式発表に基づくAIニュースを30秒要約と技術解説で届ける日本語の新聞。">
-  <div class="masthead">
-    <div class="kicker">Independent AI Technology Newspaper · First Edition</div>
-    <h1>AI最前線新聞</h1>
-    <div class="deck">AIの進化を知る。その驚きから、未来が始まる。</div>
-  </div>
-  <div class="meta-line"><span>{formatted} ｜ 創刊号 No. {String(issueNumber).padStart(3,'0')}</span><span>研究・開発・プロダクト・実践の最前線</span></div>
-  <div class="notice" role="note"><strong>創刊号：</strong>公式発表に基づく直近の注目ニュースをお届けします。各記事に発表日と一次情報へのリンクを掲載。現在は手動編集による発行で、毎日の自動配信は準備中です。</div>
-  <section aria-labelledby="lead-title">
-    <div class="section-heading"><h2 id="lead-title">創刊号の一面</h2><span>TOP STORY / FRONT PAGE</span></div>
-    <div class="hero-story">
-      <div>
-        <span class="pill">{lead.category}</span>
-        <div class="eyebrow" style="margin-top:14px">THE LEAD STORY</div>
-        <h2><a href={`/articles/${lead.slug}/`}>{lead.title}</a></h2>
-        <p>{lead.summary}</p>
-        <div class="story-meta">発表：{lead.announcedAt} · {lead.readMinutes}分で読む · {lead.articleType}</div>
-        <a class="action-link" href={`/articles/${lead.slug}/`}>記事を読む →</a>
+
+<BaseLayout title="AI最前線新聞 | AI FRONTIER" description="その日、AIの世界で何が起きたのか。公式発表に基づくAIニュースを30秒要約と技術解説で届ける日本語の新聞。">
+  <div class="wsj-paper">
+    <header class="wsj-masthead" aria-label="新聞の題字と発行情報">
+      <div class="wsj-overline">
+        <span>AI FRONTIER · INDEPENDENT NEWSPAPER</span>
+        <span>AIの進化を、知る楽しさに。</span>
       </div>
-      <div class="hero-art" aria-hidden="true"><strong>AI<br/>Frontier.</strong></div>
+      <div class="wsj-title">
+        <span class="wsj-emblem" aria-hidden="true">◆</span>
+        <div>
+          <span class="wsj-english">THE AI FRONTIER JOURNAL</span>
+          <h1>AI最前線新聞</h1>
+        </div>
+        <span class="wsj-emblem" aria-hidden="true">◆</span>
+      </div>
+      <div class="wsj-dateline">
+        <time datetime={issueDate}>{dateLabel}</time>
+        <span>創刊号　第{issueLabel}号</span>
+        <span>研究・開発・プロダクト・実践</span>
+      </div>
+    </header>
+
+    <div class="wsj-section-label">
+      <strong>本日の一面</strong>
+      <span>AI FRONTIER / TODAY'S EDITION</span>
     </div>
-  </section>
-  <section aria-labelledby="more-title">
-    <div class="section-heading"><h2 id="more-title">今号の注目ニュース</h2><span>MORE STORIES</span></div>
-    <div class="article-grid">
-      {others.map((article)=><article class="story-card">
-        <span class="pill">{article.category}</span>
-        <h3><a href={`/articles/${article.slug}/`}>{article.title}</a></h3>
-        <p>{article.summary}</p>
-        <div class="story-meta">発表：{article.announcedAt} · {article.articleType} · {article.readMinutes}分</div>
-        <a class="action-link" href={`/articles/${article.slug}/`}>記事を読む →</a>
-      </article>)}
+
+    <div class:list={['wsj-columns', !leftStory && 'wsj-columns-one', leftStory && !rightStory && 'wsj-columns-two']}>
+      <article class="wsj-main-story">
+        <div class="wsj-story-label"><span>一面・最重要ニュース</span><span>{lead.category}</span></div>
+        {articleVisual(lead.slug) && (
+          <figure class="wsj-visual wsj-visual-main">
+            <a href={articleUrl(lead.slug)} aria-label={`記事を読む：${lead.title}`}>
+              <img src={articleVisual(lead.slug).src} alt={articleVisual(lead.slug).alt} width="1200" height="800" decoding="async" fetchpriority="high" />
+            </a>
+            <figcaption>{articleVisual(lead.slug).caption}</figcaption>
+          </figure>
+        )}
+        <h2><a href={articleUrl(lead.slug)}>{lead.title}</a></h2>
+        <p class="wsj-main-summary">{excerpt(lead.summary, 2)}</p>
+
+        <div class="wsj-story-meta">
+          <span>発表 {lead.announcedAt}</span>
+          <span>読了目安 {lead.readMinutes}分</span>
+          <a href={articleUrl(lead.slug)}>記事を読む →</a>
+        </div>
+      </article>
+
+      {leftStory && (
+        <article class="wsj-side-story wsj-side-left">
+          <div class="wsj-story-label"><span>注目のニュース</span><span>{leftStory.category}</span></div>
+          {articleVisual(leftStory.slug) && (
+            <figure class="wsj-visual wsj-visual-side">
+              <a href={articleUrl(leftStory.slug)} aria-label={`記事を読む：${leftStory.title}`}>
+                <img src={articleVisual(leftStory.slug).src} alt={articleVisual(leftStory.slug).alt} width="760" height="507" loading="eager" decoding="async" />
+              </a>
+              <figcaption>{articleVisual(leftStory.slug).caption}</figcaption>
+            </figure>
+          )}
+          <h2><a href={articleUrl(leftStory.slug)}>{leftStory.title}</a></h2>
+          <p>{excerpt(leftStory.summary, 2)}</p>
+          <div class="wsj-story-meta">
+            <span>発表 {leftStory.announcedAt}</span>
+            <a href={articleUrl(leftStory.slug)}>続きを読む →</a>
+          </div>
+        </article>
+      )}
+
+      {rightStory && (
+        <article class="wsj-side-story wsj-side-right">
+          <div class="wsj-story-label"><span>研究と実践</span><span>{rightStory.category}</span></div>
+          {articleVisual(rightStory.slug) && (
+            <figure class="wsj-visual wsj-visual-side">
+              <a href={articleUrl(rightStory.slug)} aria-label={`記事を読む：${rightStory.title}`}>
+                <img src={articleVisual(rightStory.slug).src} alt={articleVisual(rightStory.slug).alt} width="760" height="507" loading="eager" decoding="async" />
+              </a>
+              <figcaption>{articleVisual(rightStory.slug).caption}</figcaption>
+            </figure>
+          )}
+          <h2><a href={articleUrl(rightStory.slug)}>{rightStory.title}</a></h2>
+          <p>{excerpt(rightStory.summary, 2)}</p>
+          <div class="wsj-story-meta">
+            <span>発表 {rightStory.announcedAt}</span>
+            <a href={articleUrl(rightStory.slug)}>続きを読む →</a>
+          </div>
+        </article>
+      )}
     </div>
-  </section>
-  <section class="info-strip" aria-label="バックナンバーへの案内">
-    <div>
-      <strong>気になったニュースは、いつでも読み返せる。</strong>
-      <p>発行日と元発表日を分けて記録。毎日の発行体制は順次整備します。</p>
+
+    <section class="wsj-inside" aria-labelledby="inside-heading">
+      <div class="wsj-inside-heading">
+        <h2 id="inside-heading">今号をもっと読む</h2>
+        <span>INSIDE THIS ISSUE</span>
+      </div>
+      <div class="wsj-inside-grid">
+        {articles.map((article) => (
+          <article>
+            {articleVisual(article.slug) && <a class="wsj-inside-thumb" href={articleUrl(article.slug)} aria-label={`記事を読む：${article.title}`}><img src={articleVisual(article.slug).src} alt={articleVisual(article.slug).alt} width="120" height="80" loading="lazy" /></a>}
+            <div>
+              <div class="wsj-inside-category">{article.category} · {article.readMinutes}分</div>
+              <h3><a href={articleUrl(article.slug)}>{article.title}</a></h3>
+              <p>{excerpt(article.whyItMatters, 1)}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <div class="wsj-edition-note">
+      <p><strong>編集部より</strong>　創刊号は公式発表をもとに手動編集しています。自動発行は準備中です。出典と発表日は各記事をご覧ください。</p>
+      <a href={`/issues/${issueDate}/`}>創刊号の全記事を見る →</a>
     </div>
-    <a class="action-link" href={`/issues/${issueDate}/`}>創刊号の全記事を見る →</a>
-  </section>
+  </div>
 </BaseLayout>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 490" role="img" aria-labelledby="t d">
+<title id="t">AIエージェントとの音声対話を示す概念イラスト</title>
+<desc id="d">ラップトップのコード画面とスマートフォン、両者をつなぐ音声の波形を描いたオリジナルの概念図。Cursorの実際の画面ではありません。</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#091c31"/><stop offset=".55" stop-color="#163a52"/><stop offset="1" stop-color="#17242e"/></linearGradient>
+<radialGradient id="halo"><stop stop-color="#61d4e7" stop-opacity=".43"/><stop offset="1" stop-color="#61d4e7" stop-opacity="0"/></radialGradient>
+<linearGradient id="wave" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#8ce2d3"/><stop offset="1" stop-color="#84b3ed"/></linearGradient>
+</defs>
+<rect width="760" height="490" fill="url(#bg)"/>
+<circle cx="371" cy="205" r="208" fill="url(#halo)"/>
+<g opacity=".25" fill="none" stroke="#8ab4bd"><path d="M0 87H154M0 117H96M626 405H760M670 375H760"/><circle cx="154" cy="87" r="4"/><circle cx="626" cy="405" r="4"/></g>
+<rect x="49" y="115" width="475" height="280" rx="14" fill="#061521" stroke="#85c0c4" stroke-width="4"/>
+<rect x="64" y="129" width="445" height="244" rx="6" fill="#10283a"/>
+<rect x="64" y="129" width="445" height="31" fill="#1c4252"/>
+<circle cx="84" cy="144" r="5" fill="#e1a178"/><circle cx="102" cy="144" r="5" fill="#e6c680"/><circle cx="121" cy="144" r="5" fill="#86bbad"/>
+<g stroke-linecap="round" stroke-width="8">
+<path d="M95 194H264" stroke="#3b8499"/><path d="M95 221H376" stroke="#6fbbc6"/><path d="M95 248H239" stroke="#6b8faa"/><path d="M95 275H414" stroke="#d1a371"/><path d="M95 302H288" stroke="#63aaa4"/><path d="M95 329H354" stroke="#3e7184"/>
+</g>
+<path d="M38 400H537L561 414Q560 424 540 425H33Q18 423 20 414Z" fill="#527587" stroke="#96b9c3" stroke-width="2"/>
+<path d="M247 402H353L342 410H257Z" fill="#a3c0c4"/>
+<rect x="492" y="52" width="202" height="358" rx="33" fill="#09111a" stroke="#c4dee2" stroke-width="6"/>
+<rect x="506" y="67" width="174" height="327" rx="23" fill="#183847"/>
+<rect x="550" y="75" width="88" height="14" rx="7" fill="#080f16"/>
+<circle cx="594" cy="235" r="76" fill="#194e61" stroke="#8bdbdc" stroke-width="3" stroke-opacity=".9"/>
+<circle cx="594" cy="235" r="62" fill="none" stroke="#5ab8c5" stroke-width="2" stroke-dasharray="6 12"/>
+<g stroke="url(#wave)" stroke-width="9" stroke-linecap="round">
+<path d="M542 234V236"/><path d="M559 218V252"/><path d="M576 199V271"/><path d="M593 209V260"/><path d="M610 190V280"/><path d="M627 208V263"/><path d="M644 226V245"/>
+</g>
+<g fill="none" stroke="url(#wave)" stroke-width="4" stroke-linecap="round">
+<path d="M437 92Q490 42 540 92"/><path d="M430 76Q492 13 551 73"/>
+</g>
+<text x="555" y="328" fill="#bce6ea" font-family="Arial,sans-serif" font-size="15" font-weight="bold" letter-spacing="2">VOICE CHAT</text>
+<text x="53" y="65" fill="#d7f5e8" font-family="Arial,sans-serif" font-size="22" font-weight="bold" letter-spacing="3">AI AGENT</text>
+<rect x="55" y="447" width="193" height="26" rx="13" fill="#d1e9dc" opacity=".92"/>
+<text x="76" y="466" fill="#163c41" font-family="Arial,sans-serif" font-size="15" font-weight="bold" letter-spacing="2">VOICE + CODE</text>
+</svg>

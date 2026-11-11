@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { articles, type Article } from '../../data/articles';
+import { articleVisual } from '../../data/editorialVisuals';
 export function getStaticPaths() {
   return articles.map((article) => ({
     params: { slug: article.slug },
@@ -8,6 +9,7 @@ export function getStaticPaths() {
   }));
 }
 const { article } = Astro.props as { article: Article };
+const visual = articleVisual(article.slug);
 ---
 <BaseLayout title={`${article.title} | AI最前線新聞`} description={article.summary}>
   <div class="article-wrap">
@@ -20,6 +22,12 @@ const { article } = Astro.props as { article: Article };
       <span>本紙掲載：{article.publishedAt}</span>
       <span>読了目安 {article.readMinutes}分</span>
     </div>
+    {visual && (
+      <figure class="article-visual">
+        <img src={visual.src} alt={visual.alt} width="1200" height="800" loading="eager" decoding="async" />
+        <figcaption>{visual.caption}</figcaption>
+      </figure>
+    )}
     <section aria-labelledby="summary-title">
       <div class="eyebrow">LEVEL 1 · 30-SECOND SUMMARY</div>
       <h2 id="summary-title">30秒で理解する</h2>
@@ -46,3 +54,9 @@ const { article } = Astro.props as { article: Article };
     </section>
   </div>
 </BaseLayout>
+
+<style>
+  .article-visual{margin:22px 0 28px}
+  .article-visual img{width:100%;height:auto;display:block;border:1px solid #c8cbc3;background:#0a2330}
+  .article-visual figcaption{font:500 11px/1.6 system-ui,sans-serif;color:#647069;margin-top:7px}
+</style>

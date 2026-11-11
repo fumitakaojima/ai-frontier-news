@@ -25,17 +25,17 @@ const path = Astro.url.pathname;
   </head>
   <body>
     <a href="#main" style="position:absolute;left:-9999px;top:0" onfocus="this.style.left='12px'" onblur="this.style.left='-9999px'">本文へ移動</a>
-    <header class="site-header">
+    <header class={path === '/' ? 'site-header home-topbar' : 'site-header'}>
       <div class="header-inner header-top">
         <a class="brand" href="/" aria-label="AI FRONTIER ホーム">AI FRONTIER <span>AI最前線新聞</span></a>
         <nav class="site-nav" aria-label="主要ナビゲーション">
-          <a href="/" aria-current={path === '/' ? 'page' : undefined}>今日の新聞</a>
+          <a href="/" aria-current={path === '/' ? 'page' : undefined}>最新号</a>
           <a href={`/issues/${issueDate}/`} aria-current={path.startsWith('/issues/') ? 'page' : undefined}>バックナンバー</a>
           <a href="/about/" aria-current={path.startsWith('/about/') ? 'page' : undefined}>この新聞について</a>
         </nav>
       </div>
     </header>
-    <main id="main" class="container"><slot /></main>
+    <main id="main" class={path === '/' ? 'frontpage-page' : 'container'}><slot /></main>
     <footer class="footer">
       <div class="container footer-inner">
         <span>© AI FRONTIER · AI最前線新聞</span>

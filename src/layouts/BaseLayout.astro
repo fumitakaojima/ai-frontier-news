@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { issueNumber } from '../data/articles';
 interface Props {
   title?: string;
   description?: string;
@@ -38,7 +39,7 @@ const path = Astro.url.pathname;
     <footer class="footer">
       <div class="container footer-inner">
         <span>© AI FRONTIER · AI最前線新聞</span>
-        <span>創刊：2026年11月10日｜公式発表に基づく独立編集｜自動発行は準備中</span>
+        <span>創刊：2026年11月10日｜一次情報を重視した編集｜{issueNumber === 1 ? '次号の自動発行は設定準備中' : '新号はAI編集・根拠照合を経て公開'}</span>
       </div>
     </footer>
   </body>

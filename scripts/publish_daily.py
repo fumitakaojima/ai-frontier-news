@@ -255,7 +255,7 @@ def text_ai(account, token, system, user):
         text = response.get("response", "")
     if not isinstance(text, str) or not text.strip():
         raise ValueError("Empty text response")
-    text = text.strip().removeprefix("\`\`\`json").removeprefix("\`\`\`").removesuffix("\`\`\`").strip()
+    text = text.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
     start, end = text.find("{"), text.rfind("}")
     if start == -1 or end <= start:
         raise ValueError("Model did not return JSON")
@@ -268,7 +268,7 @@ def validate_draft(data, evidence):
         value = data.get(key, "")
         if not isinstance(value, str) or not minimum <= len(value) <= maximum:
             raise ValueError("Invalid editorial field: " + key)
-        if any(mark in value for mark in ("<script", "http://", "https://", "\`\`\`")):
+        if any(mark in value for mark in ("<script", "http://", "https://", "```")):
             raise ValueError("Unsafe or malformed editorial content")
     technical = data.get("technical")
     if not isinstance(technical, list) or len(technical) != 2:
@@ -480,8 +480,8 @@ def self_test():
     assert validate_draft({
         "title": "AIエージェントは新しい可能性を広げる",
         "summary": "公式発表によると、新しいAIモデルが登場しました。AIエージェントを開発する人にとって、今後の選択肢が増える可能性があります。ただし、性能や動作条件の確認が必要です。",
-        "technical": ["公式発表では、AIエージェント開発で使う新しいモデルが紹介されています。利用前には公式文書の要件と制限を確認する必要があります。",
-                      "現時点では独立した性能検証を行っていないため、特定の業務での成果や速度については断定できません。公開資料の範囲で理解することが重要です。"],
+        "technical": ["公式発表では、AIエージェント開発で使う新しいモデルが紹介されています。利用前には公式文書の要件と制限を確認する必要があります。導入判断では運用環境に関する制約も合わせて調べることが必要です。",
+                      "現時点では独立した性能検証を行っていないため、特定の業務での成果や速度については断定できません。公開資料の範囲で理解することが重要です。今後の公式発表によって仕様が変わる可能性にも注意します。"],
         "whyItMatters": "AIエージェントを開発する人にとって、利用できるモデルの選択肢が広がる可能性があります。",
         "evidenceIds": ["E1", "E2"],
     }, proof)

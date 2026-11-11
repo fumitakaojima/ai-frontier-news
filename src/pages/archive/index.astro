@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { issues } from '../../data/articles';
+---
+<BaseLayout title="バックナンバー一覧 | AI最前線新聞" description="AI最前線新聞の過去の発行号を日付順に読む。">
+  <div class="masthead">
+    <div class="kicker">ARCHIVE / AI FRONTIER</div>
+    <h1>バックナンバー</h1>
+    <div class="deck">AIの進化を、日付でたどる。</div>
+  </div>
+  <div class="section-heading"><h2>発行号一覧</h2><span>{issues.length} ISSUES</span></div>
+  <ul class="issue-list">
+    {issues.map((issue) => <li>
+      <div class="eyebrow">第{String(issue.issueNumber).padStart(3, '0')}号 · {issue.articles.length}記事</div>
+      <a href={`/issues/${issue.issueDate}/`}>{issue.issueDate} の新聞 →</a>
+      <p style="font-size:13px;color:#68736e">{issue.articles[0]?.title}</p>
+    </li>)}
+  </ul>
+  <a class="back-link" href="/">← 最新号の一面に戻る</a>
+</BaseLayout>

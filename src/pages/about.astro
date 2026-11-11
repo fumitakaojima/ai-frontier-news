@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { issueNumber } from '../data/articles';
 ---
 <BaseLayout title="この新聞について | AI最前線新聞">
   <div class="article-wrap">
@@ -13,8 +14,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </section>
     <section class="article-section">
       <h2>現在の発行体制</h2>
-      <p>2026年11月10日の創刊号は、確認できた公式発表をもとに編集しています。記事生成・情報収集・出典照合・毎日の自動発行を一貫して実行するシステムは、まだ稼働していません。</p>
-      <p>今後は、月額0円の範囲で自動化を段階的に追加する計画です。根拠不足や取得失敗が起きた場合は無理に記事を公開しないことを基本方針とします。</p>
+      <p>2026年11月10日の創刊号は、確認できた公式発表をもとに編集しています。{issueNumber === 1 ? '次号のための自動収集・AI編集・画像生成の仕組みは実装済みですが、無料プランの確認とAPI認証情報の設定が完了するまで自動発行は停止しています。' : '最新号は公式情報の収集・AIによる編集・根拠照合を通過して発行されています。独立した性能検証ではありません。'}</p>
+      <p>自動化ではCloudflare Workers AIの無料枠を利用し、条件が満たされない場合は公開を保留する設計です。根拠不足や取得失敗が起きた場合は無理に記事を公開しないことを基本方針とします。</p>
     </section>
     <section class="article-section"><a href="/" class="back-link">← トップページへ</a></section>
   </div>

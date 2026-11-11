@@ -38,7 +38,7 @@ const articleUrl = (slug: string) => `/articles/${slug}/`;
       </div>
       <div class="wsj-dateline">
         <time datetime={issueDate}>{dateLabel}</time>
-        <span>創刊号　第{issueLabel}号</span>
+        <span>{issueNumber === 1 ? "創刊号" : "最新号"}　第{issueLabel}号</span>
         <span>研究・開発・プロダクト・実践</span>
       </div>
     </header>
@@ -130,8 +130,8 @@ const articleUrl = (slug: string) => `/articles/${slug}/`;
     </section>
 
     <div class="wsj-edition-note">
-      <p><strong>編集部より</strong>　創刊号は公式発表をもとに手動編集しています。自動発行は準備中です。出典と発表日は各記事をご覧ください。</p>
-      <a href={`/issues/${issueDate}/`}>創刊号の全記事を見る →</a>
+      <p><strong>編集部より</strong>　{issueNumber === 1 ? "創刊号は公式発表をもとに手動編集しています。日次自動発行は準備中です。" : "最新号は公式情報からAIが編集した記事です。モデルによる根拠照合を通過していますが、独立した性能再現ではありません。"} 出典と発表日は各記事をご覧ください。</p>
+      <a href={`/issues/${issueDate}/`}>今号の全記事を見る →</a>
     </div>
   </div>
 </BaseLayout>

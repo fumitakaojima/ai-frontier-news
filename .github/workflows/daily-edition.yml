@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: '24'
       - name: Install static-site dependencies
-        run: npm ci --no-audit --no-fund
+        run: npm install --no-audit --no-fund
       - name: Test editorial guardrails (offline)
         run: python3 scripts/publish_daily.py --self-test
       - name: Generate vetted edition or safely skip

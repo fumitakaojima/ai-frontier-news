@@ -25,6 +25,8 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Test daily publisher safety rules
         run: python3 scripts/publish_daily.py --self-test
+      - name: Simulate daily publication offline
+        run: python3 scripts/test_daily_publisher.py
       - name: Check archived content
         run: npm run check:content
       - name: Build static pages

@@ -1,3 +1,5 @@
+import generated from './visuals.generated.json';
+
 /**
  * Original editorial artwork for the first issue.
  * These are AI-generated conceptual illustrations, not product screenshots or independent measurements.
@@ -26,4 +28,5 @@ const visuals: Record<string, EditorialVisual> = {
     caption: 'AI生成の概念CG。Images 2.6の出力実例ではありません',
   },
 };
-export const articleVisual = (slug: string): EditorialVisual | undefined => visuals[slug];
+export const articleVisual = (slug: string): EditorialVisual | undefined =>
+  (generated as Record<string, EditorialVisual>)[slug] ?? visuals[slug];

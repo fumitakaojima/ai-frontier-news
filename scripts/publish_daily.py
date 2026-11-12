@@ -529,7 +529,18 @@ def self_test():
     assert safe_failure_label(ValueError("token=DO-NOT-LOG")) == "ValueError"
     assert safe_failure_label(ValueError("Insufficient first-party evidence")) == "Insufficient_first-party_evidence"
     assert safe_failure_label(HTTPError("https://api.cloudflare.com/test", 429, "Private info", {}, None)) == "HTTP_429"
-    print("SELF_TEST_OK: URL allowlist, feed parsing, editorial format and safe diagnostics")
+    from unittest.mock import patch
+    requested = {}
+    def fake_ai(account, token, model, payload):
+        requested.update(payload)
+        return {"choices": [{"message": {"content": '{"ok":true}'}}]}
+    with patch.object(sys.modules[__name__], "api_request", side_effect=fake_ai):
+        assert text_ai("0" * 32, "fake-token", "system", "user") == {"ok": True}
+    assert requested["chat_template_kwargs"] == {"enable_thinking": False}
+    assert requested["response_format"] == {"type": "json_object"}
+    assert requested["max_completion_tokens"] >= 1700
+    assert "max_tokens" not in requested
+    print("SELF_TEST_OK: URL allowlist, editorial gates, safe diagnostics and GLM JSON configuration")
 
 
 if __name__ == "__main__":

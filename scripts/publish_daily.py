@@ -520,7 +520,10 @@ def self_test():
         "whyItMatters": "AIエージェントを開発する人にとって、利用できるモデルの選択肢が広がる可能性があります。",
         "evidenceIds": ["E1", "E2"],
     }, proof)
-    print("SELF_TEST_OK: URL allowlist, feed parsing and structure checks")
+    assert safe_failure_label(ValueError("token=DO-NOT-LOG")) == "ValueError"
+    assert safe_failure_label(ValueError("Insufficient first-party evidence")) == "Insufficient_first-party_evidence"
+    assert safe_failure_label(HTTPError("https://api.cloudflare.com/test", 429, "Private info", {}, None)) == "HTTP_429"
+    print("SELF_TEST_OK: URL allowlist, feed parsing, editorial format and safe diagnostics")
 
 
 if __name__ == "__main__":

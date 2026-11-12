@@ -88,6 +88,37 @@ def check_url(value, allowed_hosts):
     return value
 
 
+def safe_failure_label(exc):
+    """Return only controlled diagnostics; never log AI input, secrets or raw URLs."""
+    if isinstance(exc, HTTPError):
+        return "HTTP_" + str(exc.code)
+    if isinstance(exc, ValueError):
+        if str(exc) in {
+            "Refusing unapproved URL or protocol",
+            "Refusing credentials or nonstandard ports in URL",
+            "HTTP response not OK",
+            "Source exceeds bounded fetch size",
+            "Insufficient first-party evidence",
+            "Empty text response",
+            "Model did not return JSON",
+            "Workers AI response invalid",
+            "Workers AI returned non-success status",
+            "Workers AI response too large",
+            "Fact-check review rejected the draft",
+            "No story-specific safe image prompt",
+            "Image generation unavailable",
+            "Generated conceptual image is not a valid bounded JPEG",
+            "No traceable fact support",
+            "Unsupported number or performance claim in draft",
+            "Two technical sections are required",
+            "Invalid technical paragraph",
+        }:
+            return str(exc).replace(" ", "_")
+        if str(exc).startswith("Invalid editorial field: "):
+            return "Invalid_editorial_field"
+    return type(exc).__name__
+
+
 def fetch(url, hosts, max_bytes=280000):
     check_url(url, hosts)
     opener = build_opener(SafeRedirect(hosts))
@@ -406,13 +437,13 @@ def generate_today(now=None):
     errors = 0
     for source in SOURCES:
         try:
-            raw = fetch(source["feed"], source["hosts"])
+            raw = fetch(source["feed"], source["hosts"], max_bytes=5_000_000)
             found = parse_feed(raw, source, now)
             candidates.extend(found)
             print(f"{source['name']}: {len(found)} recent candidates")
         except (ValueError, OSError, HTTPError, URLError, ET.ParseError, TimeoutError) as exc:
             errors += 1
-            print(f"{source['name']}: feed fetch failed safely ({type(exc).__name__})")
+            print(f"{source['name']}: feed fetch failed safely ({safe_failure_label(exc)})")
     if errors == len(SOURCES):
         print("NO_EDITION: All trusted feeds unavailable.")
         return False
@@ -428,12 +459,16 @@ def generate_today(now=None):
     for candidate in candidates[:MAX_AI_ATTEMPTS]:
         if len(published) >= MAX_ISSUE_ARTICLES:
             break
+        stage = "source_evidence"
         try:
             evidence = evidence_lines(candidate)
             if len(evidence) < 2:
                 raise ValueError("Insufficient first-party evidence")
+            stage = "ai_draft_and_review"
             draft = editorial_draft(account, token, candidate, evidence)
+            stage = "article_metadata"
             article = build_article(candidate, draft, issue_date)
+            stage = "conceptual_image"
             image = render_image(account, token, draft["visualPrompt"], article["slug"])
             generated_visuals[article["slug"]] = {
                 "src": "/images/auto/" + article["slug"] + ".jpg",
@@ -444,7 +479,7 @@ def generate_today(now=None):
             published.append(article)
             print("Candidate passed editorial gates: " + candidate["source"])
         except (ValueError, OSError, HTTPError, URLError, TimeoutError, KeyError, TypeError) as exc:
-            print("HELD: Candidate failed verification or asset creation: " + type(exc).__name__)
+            print("HELD: " + candidate["source"] + " stage=" + stage + " reason=" + safe_failure_label(exc))
 
     if not published:
         print("NO_EDITION: No articles met editorial and visual quality gates.")
@@ -485,7 +520,10 @@ def self_test():
         "whyItMatters": "AIエージェントを開発する人にとって、利用できるモデルの選択肢が広がる可能性があります。",
         "evidenceIds": ["E1", "E2"],
     }, proof)
-    print("SELF_TEST_OK: URL allowlist, feed parsing and structure checks")
+    assert safe_failure_label(ValueError("token=DO-NOT-LOG")) == "ValueError"
+    assert safe_failure_label(ValueError("Insufficient first-party evidence")) == "Insufficient_first-party_evidence"
+    assert safe_failure_label(HTTPError("https://api.cloudflare.com/test", 429, "Private info", {}, None)) == "HTTP_429"
+    print("SELF_TEST_OK: URL allowlist, feed parsing, editorial format and safe diagnostics")
 
 
 if __name__ == "__main__":

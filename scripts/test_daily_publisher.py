@@ -2,6 +2,7 @@
 """Offline publisher integration tests. Never calls Cloudflare or live feeds."""
 import importlib.util
 import json
+from copy import deepcopy
 from pathlib import Path
 import shutil
 from tempfile import TemporaryDirectory
@@ -45,7 +46,42 @@ def fake_fetch(url, hosts, *args, **kwargs):
 def fake_image(*args):
     return b"\xff\xd8\xff" + b"\x00" * 18000
 
+def test_editorial_repair():
+    candidate = {"source": "OpenAI", "url": "https://openai.com/news/agent-update",
+                 "title": "An AI agent model update", "date": "2026-11-12"}
+    evidence = {
+        "E1": "OpenAI released an AI model update for agent developers.",
+        "E2": "Developers should consult official documentation before relying on performance.",
+    }
+    broken = deepcopy(DRAFT)
+    broken["technical"] = ["短い文"]
+    good = deepcopy(DRAFT)
+    with patch.object(pub, "text_ai", side_effect=[broken, good, {"accept": True, "issues": []}]) as model:
+        assert pub.editorial_draft("a", "secret", candidate, evidence) == good
+        assert model.call_count == 3, "Exactly one bounded repair and one review"
+
+    with patch.object(pub, "text_ai", side_effect=[broken, broken]) as model:
+        try:
+            pub.editorial_draft("a", "secret", candidate, evidence)
+        except ValueError as e:
+            assert str(e) == "Two technical sections are required"
+        else:
+            raise AssertionError("Invalid repaired article must not pass")
+        assert model.call_count == 2, "Never make unlimited repair calls"
+
+    with patch.object(pub, "text_ai", side_effect=[broken, good, {"accept": False, "issues": ["Unsubstantiated"]}]) as model:
+        try:
+            pub.editorial_draft("a", "secret", candidate, evidence)
+        except ValueError as e:
+            assert str(e) == "Fact-check review rejected the draft"
+        else:
+            raise AssertionError("Repaired text still requires skeptical review")
+        assert model.call_count == 3
+    print("REPAIR_TEST_OK: bounded repair, strict revalidation, independent review")
+
+
 def main():
+    test_editorial_repair()
     original = Path(__file__).resolve().parents[1] / "src" / "data"
     with TemporaryDirectory() as td:
         temp = Path(td)
